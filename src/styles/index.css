@@ -1,0 +1,8 @@
+@import './tailwind.css';
+@import './theme.css';
+
+/* ASND v2 (ink-blue) foundation — Palash's redesign design system, scoped to
+   `.asnd-ink-root` so it never touches the app-wide / warm-v2 tokens.
+   Tokens then base texture/motifs (base references vars from theme). */
+@import './asnd-v2/theme.css';
+@import './asnd-v2/base.css';

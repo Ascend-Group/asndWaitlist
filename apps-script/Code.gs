@@ -1,0 +1,94 @@
+/**
+ * ASND waitlist — Google Apps Script Web App backend.
+ *
+ * Receives POSTs from the waitlist form (src/app/pages/landing/WaitlistForm.tsx)
+ * and appends one row per signup to the bound Google Sheet. Deploy this as a Web
+ * App (execute as: Me · who has access: Anyone). See apps-script/README.md.
+ *
+ * The form sends Content-Type: text/plain so the browser skips the CORS
+ * preflight; the JSON body is parsed from e.postData.contents.
+ */
+
+var SHEET_NAME = 'Waitlist';
+var HEADERS = [
+  'submitted_at', // client timestamp (ISO)
+  'first_name',
+  'last_name',
+  'email',
+  'whatsapp',
+  'instagram',
+  'source',
+  'received_at', // server timestamp
+];
+
+function doPost(e) {
+  try {
+    var body = JSON.parse((e && e.postData && e.postData.contents) || '{}');
+
+    // Shared-token check (deters casual abuse; not a real secret).
+    var expected = PropertiesService.getScriptProperties().getProperty('TOKEN') || '';
+    if (expected && String(body.token || '') !== expected) {
+      return json({ ok: false, error: 'unauthorized' });
+    }
+
+    var email = String(body.email || '').trim();
+    if (!email) return json({ ok: false, error: 'email_required' });
+
+    var sheet = getSheet();
+
+    // Dedupe by email (case-insensitive) — treat a repeat as success, no new row.
+    if (emailExists(sheet, email)) {
+      return json({ ok: true, duplicate: true });
+    }
+
+    sheet.appendRow([
+      String(body.submitted_at || ''),
+      String(body.first_name || '').trim(),
+      String(body.last_name || '').trim(),
+      email,
+      String(body.whatsapp || '').trim(),
+      String(body.instagram || '').replace(/^@+/, '').trim(),
+      String(body.source || 'waitlist-web'),
+      new Date().toISOString(),
+    ]);
+
+    return json({ ok: true });
+  } catch (err) {
+    return json({ ok: false, error: String(err) });
+  }
+}
+
+// Health check — open the /exec URL in a browser to confirm it's live.
+function doGet() {
+  return json({ ok: true, service: 'asnd-waitlist' });
+}
+
+function getSheet() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(SHEET_NAME);
+  if (!sheet) {
+    sheet = ss.insertSheet(SHEET_NAME);
+    sheet.appendRow(HEADERS);
+  } else if (sheet.getLastRow() === 0) {
+    sheet.appendRow(HEADERS);
+  }
+  return sheet;
+}
+
+function emailExists(sheet, email) {
+  var last = sheet.getLastRow();
+  if (last < 2) return false;
+  // Column 4 = email (1-indexed).
+  var values = sheet.getRange(2, 4, last - 1, 1).getValues();
+  var needle = email.toLowerCase();
+  for (var i = 0; i < values.length; i++) {
+    if (String(values[i][0]).trim().toLowerCase() === needle) return true;
+  }
+  return false;
+}
+
+function json(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(
+    ContentService.MimeType.JSON
+  );
+}

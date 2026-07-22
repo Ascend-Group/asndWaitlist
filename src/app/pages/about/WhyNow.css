@@ -1,0 +1,161 @@
+/* ─── Why now — the opportunity ──────────────────────────────────────────────
+   100M+ count-up on the left; a descending TAM/SAM/SOM stack on the right
+   (navy → light → lighter, each indented further so it reads as a funnel).
+   White surface + engraved texture.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.whynow {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+.whynow-in {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 96px var(--gutter);
+}
+.whynow-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+/* ── Left ─────────────────────────────────────────────────────────────────── */
+.whynow-eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+.whynow-big {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(64px, 8.5vw, 116px);
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.whynow-plus {
+  color: var(--accent);
+}
+.whynow-h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(26px, 2.8vw, 34px);
+  line-height: 1.15;
+  color: var(--ink);
+  margin: 18px 0 0;
+  max-width: 440px;
+}
+.whynow-h2 em {
+  font-style: italic;
+  color: var(--ink-2);
+}
+.whynow-copy {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--body);
+  max-width: 440px;
+  margin: 20px 0 0;
+}
+.whynow-src {
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+  margin: 22px 0 0;
+}
+
+/* ── Right: how discovery works today → the trusted layer ─────────────────── */
+.whynow-path {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.whynow-path-label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0 0 4px;
+}
+.whynow-old-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px dashed #c3cddd;
+  border-radius: 14px;
+  padding: 16px 22px;
+}
+.whynow-old-t {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--ink-2);
+}
+.whynow-old-d {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: right;
+}
+.whynow-path-join {
+  align-self: center;
+  color: var(--accent);
+  line-height: 0;
+  margin: 2px 0;
+}
+.whynow-asnd {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+  border-radius: 16px;
+  padding: 26px 30px;
+}
+.whynow-asnd-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 100% at 100% 0%, rgba(78, 115, 176, 0.4), transparent 60%);
+  pointer-events: none;
+}
+.whynow-asnd-k {
+  position: relative;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #9db8e0;
+  margin: 0 0 10px;
+}
+.whynow-asnd-line {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(22px, 2.4vw, 27px);
+  line-height: 1.2;
+  color: #fff;
+  margin: 0;
+  text-wrap: balance;
+}
+
+@media (max-width: 860px) {
+  .whynow-in {
+    padding: 72px var(--gutter);
+  }
+  .whynow-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .whynow-old-row {
+    padding: 14px 18px;
+  }
+}

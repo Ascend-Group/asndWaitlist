@@ -1,0 +1,104 @@
+/* ─── /about — the story behind ASND ──────────────────────────────────────────
+   The chapter-opening plate: display headline + one framing line beside a
+   cluster of prints from inside the network (real member work, laid out like
+   proofs on a desk), on the engraved base texture. The story sections below
+   carry themselves. Sits on the shared 1240 grid.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.about-intro {
+  border-bottom: 1px solid var(--border);
+  overflow: hidden; /* rotated prints must not spill a horizontal scrollbar */
+}
+.about-intro-in {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: clamp(56px, 7.5vw, 96px) var(--gutter) clamp(48px, 6vw, 76px);
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(36px, 5vw, 72px);
+  align-items: center;
+}
+
+/* The print cluster */
+.about-photos {
+  position: relative;
+  height: clamp(300px, 28vw, 380px);
+}
+.about-photo {
+  position: absolute;
+  margin: 0;
+  background: #fff;
+  padding: 7px 7px 9px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 26px 54px -30px rgba(20, 41, 74, 0.5);
+}
+.about-photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 5px;
+}
+.about-photo figcaption {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: #5c6675;
+  padding: 7px 3px 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.about-photo--a {
+  width: 56%;
+  top: 0;
+  left: 0;
+  transform: rotate(-3.5deg);
+  z-index: 1;
+}
+.about-photo--b {
+  width: 52%;
+  top: 22%;
+  right: 0;
+  transform: rotate(2.5deg);
+  z-index: 2;
+}
+.about-photo--c {
+  width: 46%;
+  bottom: 0;
+  left: 12%;
+  transform: rotate(-1.2deg);
+  z-index: 3;
+}
+.about-h1 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(38px, 5vw, 60px);
+  line-height: 1.04;
+  color: var(--ink);
+  margin: 0 0 16px;
+  max-width: 18ch;
+  text-wrap: balance;
+}
+.about-sub {
+  font-family: var(--font-sans);
+  font-size: clamp(15.5px, 1.6vw, 17.5px);
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0;
+  max-width: 52ch;
+  text-wrap: pretty;
+}
+
+@media (max-width: 860px) {
+  .about-intro-in {
+    grid-template-columns: 1fr;
+    gap: 44px;
+    padding-top: 48px;
+  }
+  .about-photos {
+    height: clamp(260px, 62vw, 340px);
+    max-width: 520px;
+  }
+}

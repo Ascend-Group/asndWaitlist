@@ -1,0 +1,688 @@
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* ── shadcn / Radix surface tokens — bridged to the ASND v2 system ──────────
+     Cool paper base, navy-black ink, NAVY primary. shadcn's --accent is the
+     neutral hover fill (NOT the gold) — keep it a cool navy-tint so ghost/outline
+     hovers never become gold blocks (gold is seasoning, never a fill). */
+  --font-size: 16px;
+  --background: #ffffff;
+  --foreground: #191a1c;
+  --card: #ffffff;
+  --card-foreground: #191a1c;
+  --popover: #ffffff;
+  --popover-foreground: #191a1c;
+  --primary: #1c314d;
+  --primary-foreground: #ffffff;
+  --secondary: #f6f3ee;
+  --secondary-foreground: #191a1c;
+  --muted: #f6f3ee;
+  --muted-foreground: #6b6760;
+  --accent: #f1ede4;
+  --accent-foreground: #191a1c;
+  --destructive: #8f3c37;
+  --destructive-foreground: #ffffff;
+  --border: #e7e2d9;
+  --input: transparent;
+  --input-background: #f6f3ee;
+  --switch-background: #d4dde6;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --ring: rgba(28, 49, 77, 0.5);
+  --chart-1: #1c314d;
+  --chart-2: #3a5a76;
+  --chart-3: #6b6760;
+  --chart-4: #9a958c;
+  --chart-5: #d4dde6;
+  --radius: 0.5rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0a1a2f;
+  --sidebar-primary: #003366;
+  --sidebar-primary-foreground: #f6f7f9;
+  --sidebar-accent: #eef1f5;
+  --sidebar-accent-foreground: #0a1a2f;
+  --sidebar-border: #dde3ea;
+  --sidebar-ring: rgba(31, 92, 153, 0.5);
+
+  /* Legacy decorative aliases — kept defined so nothing 404s, but re-pointed
+     onto the cool navy/gold family (v2 forbids pastels/purple). */
+  --pastel-green: #cde0d4;
+  --pastel-pink: #e8eef5;
+  --pastel-yellow: #efe6d6;
+  --pastel-lavender: #e8eef5;
+  --soft-coral: #efe6d6;
+  --mint: #cde0d4;
+  --charcoal: #0a1a2f;
+  --sage: #44566b;
+  --dusty-rose: #b5894e;
+
+  /* ─── ASND Design System (v2 — navy + gold + cool paper) ──────────────── */
+
+  /* Navy — the structural ink (brand primary). Buttons, key headings, wordmark,
+     navy "beats" / specimen panels. Links + focus use the lifted --asnd-navy-bright. */
+  --asnd-navy: #1c314d;
+  --asnd-navy-deep: #14243a;
+  --asnd-navy-bright: #3a5a76;
+  --asnd-navy-tint: #e9eff8;
+  /* Short global aliases so var(--navy*) resolves everywhere (not just .disc-root).
+     In-product widgets (dashboard today/brand, etc.) use these for navy CTA fills. */
+  --navy: var(--asnd-navy);
+  --navy-deep: var(--asnd-navy-deep);
+  --navy-bright: var(--asnd-navy-bright);
+  --navy-tint: var(--asnd-navy-tint);
+
+  /* Dark mode palette (landing, auth) — navy-dark, not warm charcoal */
+  --asnd-dark-base: #0b1622;
+  --asnd-dark-base-2: #0a131d;
+  --asnd-dark-surface: #121f2e;
+  --asnd-dark-surface-2: #18283a;
+  --asnd-dark-border: #25374a;
+  --asnd-dark-border-strong: #2f445a;
+  --asnd-dark-text-primary: #eaf0f6;
+  --asnd-dark-text-secondary: #b4c0ce;
+  --asnd-dark-text-muted: #7e8b9a;
+  /* Faint/dim label ink on dark. Lifted from #4a5c70 (2.7:1 — failed WCAG AA)
+     to clear 4.5:1 on the dark base (#0b1622, 4.97:1) and card surface
+     (#121f2e, 4.54:1) while staying dimmer than --asnd-dark-text-muted. */
+  --asnd-dark-text-dim: #77879c;
+  /* Navy lifts on dark so primary actions / accents stay legible */
+  --asnd-dark-navy: #4f8ac9;
+
+  /* Light "warm" mode palette (inside product) — re-pointed to cool paper.
+     (Token names kept for compatibility; values are now cool, never cream.) */
+  --asnd-warm-base: #ffffff;
+  --asnd-warm-base-2: #f6f3ee;
+  --asnd-warm-base-3: #f6f3ee;
+  --asnd-warm-surface: #ffffff;
+  --asnd-warm-border: #e7e2d9;
+  --asnd-warm-border-strong: #d4dde6;
+  --asnd-warm-text-primary: #191a1c;
+  --asnd-warm-text-secondary: #46443f;
+  --asnd-warm-text-muted: #6b6760;   /* warm muted — clears WCAG AA (~5.0:1) on cream */
+  /* Faint label ink on light. Lifted from #9a958c (~2.7:1 on cream — failed
+     WCAG AA) to clear 4.5:1 on both white (5.06:1) and the cream base
+     #f6f3ee (4.57:1). */
+  --asnd-warm-text-faint: #736e66;
+
+  /* Accent (refined gold) — seasoning only: hairlines, eyebrows, the vetted seal,
+     small accents. Never a fill. */
+  /* Gold RETIRED (v3 warm-editorial): navy is the only structural accent. The
+     gold tokens are repointed onto the navy family so legacy var(--asnd-gold*)
+     references resolve to navy seasoning instead of metallic gold. Eyebrows
+     should use --asnd-warm-text-muted (grey), not these — see Phase 4 sweep. */
+  --asnd-gold: #1c314d;
+  --asnd-gold-warm: #3a5a76;
+  --asnd-gold-deep: #14243a;
+  --asnd-gold-faint: rgba(28, 49, 77, 0.10);
+  --asnd-gold-soft: rgba(28, 49, 77, 0.30);
+  --asnd-gold-glow: rgba(28, 49, 77, 0.06);
+  --asnd-gold-accessible: #1c314d;
+  --asnd-gold-signal: #1c314d;
+
+  /* Terracotta RETIRED (v3): "break" bands become navy bands (matching the new
+     navy quote/CTA bands); break-soft washes become warm cream. */
+  --asnd-break: #1c314d;
+  --asnd-break-strong: #14243a;
+  --asnd-break-soft: #f6f3ee;
+  --break: var(--asnd-break);
+  --break-strong: var(--asnd-break-strong);
+  --break-soft: var(--asnd-break-soft);
+
+  /* Urgent (warm caution — deadlines / selective availability) → handoff warn */
+  --asnd-urgent: #9a5b12;
+  /* Danger (destructive actions — delete / erase) → handoff danger */
+  --asnd-danger: #8f3c37;
+
+  /* Invitation surface (hand-picked band) — navy-dark premium, warm off-white
+     accents (gold retired). Lines are quiet warm-light, not metallic. */
+  --gold-bright: #cfcabf;
+  --cognac-text: #f3efe8;
+  --cognac-gold: #cfcabf;
+  --cognac-muted: rgba(243, 239, 232, 0.60);
+  --cognac-line: rgba(243, 239, 232, 0.26);
+  --cognac-border: rgba(243, 239, 232, 0.16);
+  --cognac-border-hover: rgba(243, 239, 232, 0.42);
+
+  /* Font-family convenience vars (v2 type system).
+     --serif-display = Cormorant Garamond (display ONLY, ≥22px: hero, section
+     titles, mastheads); --serif = Hanken Grotesk (all body / quotes — Cormorant
+     goes spindly small, so body never uses it); --mono retired → Hanken (eyebrows
+     stay uppercase + tracked via the utility classes). */
+  --serif: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+  --serif-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --mono: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+
+  /* Status (availability) */
+  --asnd-open-bg: #eef6f0;
+  --asnd-open-border: #9cc9b0;
+  --asnd-open-text: #2e6b4e;
+  --asnd-selective-bg: #f7f1e6;
+  --asnd-selective-border: #d8b878;
+  --asnd-selective-text: #9a5b12;
+  --asnd-closed-bg: #f3f1ec;
+  --asnd-closed-border: #d8d2c6;
+  --asnd-closed-text: #6b6760;
+
+  /* Spacing (8-point + 4-point fine) */
+  --asnd-space-1: 4px;
+  --asnd-space-2: 8px;
+  --asnd-space-3: 12px;
+  --asnd-space-4: 16px;
+  --asnd-space-6: 24px;
+  --asnd-space-8: 32px;
+  --asnd-space-12: 48px;
+  --asnd-space-16: 64px;
+  --asnd-space-24: 96px;
+  --asnd-space-32: 128px;
+
+  /* Layout */
+  --asnd-nav-height: 64px;
+
+  /* Radius */
+  --asnd-radius-sm: 3px;
+  --asnd-radius-md: 6px;
+  --asnd-radius-lg: 10px;
+  --asnd-radius-xl: 14px;
+  --asnd-radius-pill: 100px;
+
+  /* Shadow */
+  --asnd-shadow-card: 0 1px 3px rgba(28, 25, 23, 0.04);
+  --asnd-shadow-card-hover: 0 4px 12px rgba(28, 25, 23, 0.08);
+  --asnd-shadow-dark-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2);
+
+  /* Motion */
+  --asnd-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --asnd-duration-fast: 150ms;
+  --asnd-duration-base: 250ms;
+  --asnd-duration-slow: 600ms;
+}
+
+/* ─── Discover-rebuild token aliases (short names the spec CSS expects) ───────
+   Scoped to .disc-root (the Discover page root + the SearchOverlay) instead of
+   :root, so the alias for --border does NOT clobber the global shadcn --border
+   used by @apply border-border across the app. Maps to existing warm values;
+   no new page-chrome colors introduced. */
+.disc-root {
+  /* Typography split (shared with the Editorial Opportunities page):
+     --serif-display = Cormorant Garamond for big/display headlines (≥22px);
+     --serif         = Hanken Grotesk for body copy + quotes. */
+  --serif-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --serif: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+  --mono: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+  --ease: var(--asnd-ease-out);
+
+  --base: var(--asnd-warm-base);
+  --surface: var(--asnd-warm-surface);
+  --border: var(--asnd-warm-border);
+  --border-strong: var(--asnd-warm-border-strong);
+
+  --text: var(--asnd-warm-text-primary);
+  --text-sec: var(--asnd-warm-text-secondary);
+  --text-muted: var(--asnd-warm-text-muted);
+
+  --gold: var(--asnd-gold);
+  --gold-faint: var(--asnd-gold-faint);
+  --gold-soft: var(--asnd-gold-soft);
+
+  /* Genuinely-new tokens — navy is the ink; gold stays a refined accent. */
+  --gold-deep: var(--asnd-gold-deep);
+  --gold-bright: var(--asnd-gold-warm);
+  --ink: var(--asnd-navy);
+  --navy: var(--asnd-navy);
+  --navy-bright: var(--asnd-navy-bright);
+  --green-dot: #5fb87a;
+}
+
+.dark {
+  /* Navy-dark surfaces; navy lifts to --asnd-dark-navy so primary actions read. */
+  --background: #0b1622;
+  --foreground: #eaf0f6;
+  --card: #121f2e;
+  --card-foreground: #eaf0f6;
+  --popover: #121f2e;
+  --popover-foreground: #eaf0f6;
+  --primary: #4f8ac9;
+  --primary-foreground: #08111b;
+  --secondary: #18283a;
+  --secondary-foreground: #eaf0f6;
+  --muted: #18283a;
+  --muted-foreground: #9fb0c1;
+  --accent: #1b2c40;
+  --accent-foreground: #eaf0f6;
+  --destructive: #e0584a;
+  --destructive-foreground: #08111b;
+  --border: #25374a;
+  --input: #25374a;
+  --ring: rgba(130, 175, 224, 0.55);
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --chart-1: #4f8ac9;
+  --chart-2: #82afe0;
+  --chart-3: #c9a06a;
+  --chart-4: #7e8b9a;
+  --chart-5: #2f445a;
+  --sidebar: #0b1622;
+  --sidebar-foreground: #eaf0f6;
+  --sidebar-primary: #4f8ac9;
+  --sidebar-primary-foreground: #08111b;
+  --sidebar-accent: #18283a;
+  --sidebar-accent-foreground: #eaf0f6;
+  --sidebar-border: #25374a;
+  --sidebar-ring: rgba(130, 175, 224, 0.55);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-pastel-green: var(--pastel-green);
+  --color-pastel-pink: var(--pastel-pink);
+  --color-pastel-yellow: var(--pastel-yellow);
+  --color-pastel-lavender: var(--pastel-lavender);
+  --color-soft-coral: var(--soft-coral);
+  --color-mint: var(--mint);
+  --color-charcoal: var(--charcoal);
+  --color-sage: var(--sage);
+  --color-dusty-rose: var(--dusty-rose);
+
+  /* ─── ASND Tailwind utility mappings ─────────────── */
+  --color-asnd-dark-base: var(--asnd-dark-base);
+  --color-asnd-dark-base-2: var(--asnd-dark-base-2);
+  --color-asnd-dark-surface: var(--asnd-dark-surface);
+  --color-asnd-dark-surface-2: var(--asnd-dark-surface-2);
+  --color-asnd-dark-border: var(--asnd-dark-border);
+  --color-asnd-dark-border-strong: var(--asnd-dark-border-strong);
+  --color-asnd-dark-text-primary: var(--asnd-dark-text-primary);
+  --color-asnd-dark-text-secondary: var(--asnd-dark-text-secondary);
+  --color-asnd-dark-text-muted: var(--asnd-dark-text-muted);
+
+  --color-asnd-warm-base: var(--asnd-warm-base);
+  --color-asnd-warm-base-2: var(--asnd-warm-base-2);
+  --color-asnd-warm-surface: var(--asnd-warm-surface);
+  --color-asnd-warm-border: var(--asnd-warm-border);
+  --color-asnd-warm-text-primary: var(--asnd-warm-text-primary);
+  --color-asnd-warm-text-secondary: var(--asnd-warm-text-secondary);
+  --color-asnd-warm-text-muted: var(--asnd-warm-text-muted);
+
+  --color-asnd-gold: var(--asnd-gold);
+  --color-asnd-gold-warm: var(--asnd-gold-warm);
+  --color-asnd-gold-deep: var(--asnd-gold-deep);
+  --color-asnd-gold-signal: var(--asnd-gold-signal);
+
+  --color-asnd-navy: var(--asnd-navy);
+  --color-asnd-navy-deep: var(--asnd-navy-deep);
+  --color-asnd-navy-bright: var(--asnd-navy-bright);
+  --color-asnd-navy-tint: var(--asnd-navy-tint);
+
+  --color-asnd-break: var(--asnd-break);
+  --color-asnd-break-strong: var(--asnd-break-strong);
+  --color-asnd-break-soft: var(--asnd-break-soft);
+  --color-break: var(--asnd-break);
+  --color-break-strong: var(--asnd-break-strong);
+  --color-break-soft: var(--asnd-break-soft);
+
+  /* v2 vendored-surface utility names (bg-base / text-text / font-display …).
+     The underlying --base/--text/--font-* vars are scoped to .asnd-v2-root, so
+     these utilities only resolve inside the ported v2 Landing/Profile pages. */
+  --color-base: var(--base);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-text: var(--text);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+
+  --color-asnd-open-bg: var(--asnd-open-bg);
+  --color-asnd-open-border: var(--asnd-open-border);
+  --color-asnd-open-text: var(--asnd-open-text);
+  --color-asnd-selective-bg: var(--asnd-selective-bg);
+  --color-asnd-selective-border: var(--asnd-selective-border);
+  --color-asnd-selective-text: var(--asnd-selective-text);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /**
+  * Default typography styles for HTML elements (h1-h4, p, label, button, input).
+  * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
+  */
+
+  html {
+    font-size: var(--font-size);
+    transition: background-color 200ms ease, color 200ms ease;
+  }
+
+  h1 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h2 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h4 {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  label {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  button {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  input {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
+  }
+
+  /* Accessibility: focus-visible ring (navy-bright per v2 a11y guidance) */
+  :focus-visible {
+    outline: 2px solid var(--asnd-navy-bright);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+@layer utilities {
+  .font-editorial {
+    font-family: "Cormorant Garamond", Georgia, serif;
+  }
+  .font-label {
+    font-family: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer utilities {
+  /* ASND Typography Scale (v2).
+     Eyebrows/labels: Hanken 600 uppercase, tracked (the v2 eyebrow — mono retired).
+     Body/UI: Hanken Grotesk. Display (h1–h3, display): Cormorant Garamond, all
+     ≥24px so it never goes spindly. Cormorant weight 600 for headlines, 500 for
+     the largest display. */
+  .asnd-type-mono-label {
+    font-family: "Hanken Grotesk", system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .asnd-type-mono-meta {
+    font-family: "Hanken Grotesk", system-ui, sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .asnd-type-body-xs {
+    font-family: "Hanken Grotesk", system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+  .asnd-type-body-sm {
+    font-family: "Hanken Grotesk", system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+  .asnd-type-body {
+    font-family: "Hanken Grotesk", system-ui, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.7;
+  }
+  .asnd-type-subhead {
+    font-family: "Hanken Grotesk", system-ui, sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  .asnd-type-h3 {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+  }
+  .asnd-type-h2 {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .asnd-type-h1 {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .asnd-type-display {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 64px;
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+
+  /* ASND signature: gold thread divider */
+  .asnd-gold-thread {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      var(--asnd-gold) 30%,
+      var(--asnd-gold) 70%,
+      transparent 100%
+    );
+  }
+
+  /* ASND signature: subtle film grain (dark sections only) */
+  .asnd-film-grain {
+    position: relative;
+  }
+  .asnd-film-grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.7 0 0 0 0 0.6 0 0 0 0 0.3 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ASND wizard step container */
+  .asnd-wizard-step {
+    min-height: calc(100vh - 120px);
+    padding: 40px 24px 80px;
+    max-width: 640px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* ASND signature: scrolling marquee */
+  .asnd-marquee-track {
+    animation: asnd-marquee var(--asnd-marquee-duration, 30s) linear infinite;
+  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .asnd-animated {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}
+
+@keyframes asnd-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .asnd-marquee-track {
+    animation: none;
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+
+/* ── Dark theme override ─────────────────────────────────────────────────── */
+/* When [data-theme="dark"] is set on <html>, remap warm tokens to dark values.
+   Pages using --asnd-dark-* directly (/apply, /pending, /accepted) are unaffected. */
+[data-theme="dark"] {
+  --asnd-warm-base:           var(--asnd-dark-base);
+  --asnd-warm-base-2:         var(--asnd-dark-base-2);
+  --asnd-warm-surface:        var(--asnd-dark-surface);
+  --asnd-warm-border:         var(--asnd-dark-border);
+  --asnd-warm-border-strong:  var(--asnd-dark-border-strong);
+  --asnd-warm-text-primary:   var(--asnd-dark-text-primary);
+  --asnd-warm-text-secondary: var(--asnd-dark-text-secondary);
+  --asnd-warm-text-muted:     var(--asnd-dark-text-muted);
+  /* Also remap generic Tailwind tokens used in Navigation + cards */
+  --background:               var(--asnd-dark-base);
+  --foreground:               var(--asnd-dark-text-primary);
+  --border:                   var(--asnd-dark-border);
+  --muted:                    var(--asnd-dark-surface-2);
+  --muted-foreground:         var(--asnd-dark-text-secondary);
+  --card:                     var(--asnd-dark-surface);
+  --card-foreground:          var(--asnd-dark-text-primary);
+  /* Navy + accent lift so primary actions / hovers stay legible on dark */
+  --primary:                  var(--asnd-dark-navy);
+  --primary-foreground:       #08111b;
+  --secondary:                var(--asnd-dark-surface-2);
+  --secondary-foreground:     var(--asnd-dark-text-primary);
+  --accent:                   var(--asnd-navy-tint);
+  --accent-foreground:        var(--asnd-dark-text-primary);
+  --input-background:         var(--asnd-dark-surface-2);
+  --ring:                     rgba(130, 175, 224, 0.55);
+  /* Gold retired → navy lifts on dark so legacy gold refs stay legible */
+  --asnd-gold:                #6f9bd0;
+  --asnd-gold-warm:           #93b8e6;
+  --asnd-gold-deep:           #557cae;
+  --asnd-gold-accessible:     #93b8e6;
+  --asnd-navy-tint:           #1b2c40;
+  --navy-tint:                #1b2c40;
+  /* "break" bands lift to navy on dark */
+  --asnd-break:               #6f9bd0;
+  --break:                    #6f9bd0;
+  --asnd-break-soft:          #1c2c40;
+  --break-soft:               #1c2c40;
+  /* Lift the navy CTA fill on dark so in-product navy buttons stay legible */
+  --navy:                     var(--asnd-dark-navy);
+  --navy-deep:                var(--asnd-navy-bright);
+}
+
+/* ── Skip-to-content link (a11y / WCAG 2.4.1) ────────────────────────────────
+   The first focusable element in the DOM. Visually offscreen until focused,
+   then slides in as a high-contrast pill pinned top-left above all chrome.
+   Uses --foreground / --background so it inverts correctly in both themes. */
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 12px 20px;
+  transform: translateY(-150%);
+  background: var(--foreground);
+  color: var(--background);
+  border-radius: var(--asnd-radius-md);
+  font-family: var(--serif);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.4);
+  transition: transform 0.15s var(--asnd-ease-out, ease);
+}
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 2px solid var(--navy-bright);
+  outline-offset: 2px;
+}
+/* The skip target is a non-interactive wrapper focused only programmatically. */
+#main-content:focus {
+  outline: none;
+}
