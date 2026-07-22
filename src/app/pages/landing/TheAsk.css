@@ -116,6 +116,8 @@
 }
 .ask-role {
   display: flex;
+  text-decoration: none;
+  color: inherit;
   align-items: center;
   gap: 14px;
   width: 100%;

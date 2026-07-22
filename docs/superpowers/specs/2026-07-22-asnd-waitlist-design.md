@@ -22,8 +22,9 @@ product is publicly open, at electricity-only cost, without touching the real ap
   - **`index.html`** — hero reframed for a waitlist, with the capture form above
     the fold; `WhoItsFor` proof; a closing CTA; Nav + Footer.
   - **`about.html`** — the existing About story, copy unchanged.
-- **Capture form** (first name, last name, email required; WhatsApp + Instagram
-  optional) POSTs to a Google Apps Script → rows land live in a Google Sheet in
+- **Capture form** — how they're applying (creator / brand / agency), first
+  name, last name, email required; organisation, designation, WhatsApp, Instagram
+  optional. POSTs to a Google Apps Script → rows land live in a Google Sheet in
   the founders' Drive, exportable as `.xlsx`.
 - Builds to pure static assets; deploys free to **Cloudflare Pages** (primary)
   with **GitHub Pages** config also delivered.
@@ -69,10 +70,12 @@ product is publicly open, at electricity-only cost, without touching the real ap
 
 ### `WaitlistForm` component
 
-- **Fields:** `first_name`, `last_name`, `email` (required, validated);
-  `whatsapp` (optional, `+91` hint, digits/`+` only); `instagram` (optional,
-  leading `@` normalized). Plus a hidden **honeypot** (`company`) — bots fill it,
-  humans don't; a filled honeypot is silently accepted-then-discarded.
+- **Fields:** `role` (creator / brand / agency segmented control, default
+  creator, preselectable via a `?role=` query param that TheAsk's tiles set);
+  `first_name`, `last_name`, `email` (required, validated); `organisation`,
+  `designation`, `whatsapp` (`+91` hint), `instagram` (leading `@` normalized) —
+  all optional. Plus a hidden **honeypot** (`company`) — bots fill it, humans
+  don't; a filled honeypot is silently accepted-then-discarded.
 - **Submit:** `fetch(VITE_WAITLIST_ENDPOINT, { method:'POST',
   headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify({...,
   token: VITE_WAITLIST_TOKEN, source:'waitlist-web'}) })`. `text/plain` keeps it a
@@ -88,10 +91,10 @@ product is publicly open, at electricity-only cost, without touching the real ap
 
 `apps-script/Code.gs` (committed, with a setup README):
 
-- `doPost(e)` parses `e.postData.contents` as JSON, validates `token`, ignores
-  submissions whose honeypot is filled, and `appendRow([timestamp, first, last,
-  email, whatsapp, instagram, source])` to the bound Sheet. Optional
-  email-dedupe. Returns a JSON `ContentService` response.
+- `doPost(e)` parses `e.postData.contents` as JSON, validates `token`, and
+  `appendRow([submitted_at, role, first, last, email, organisation, designation,
+  whatsapp, instagram, source, received_at])` to the bound Sheet, with
+  case-insensitive email-dedupe. Returns a JSON `ContentService` response.
 - **Setup:** create a Google Sheet → Extensions → Apps Script → paste `Code.gs`
   → set `TOKEN` script property → Deploy as Web App (execute as *me*, access
   *anyone*) → copy the `/exec` URL into `.env`. Documented step-by-step in

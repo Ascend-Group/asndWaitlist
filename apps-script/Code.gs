@@ -12,9 +12,12 @@
 var SHEET_NAME = 'Waitlist';
 var HEADERS = [
   'submitted_at', // client timestamp (ISO)
+  'role', // creator | brand | agency
   'first_name',
   'last_name',
   'email',
+  'organisation',
+  'designation',
   'whatsapp',
   'instagram',
   'source',
@@ -43,9 +46,12 @@ function doPost(e) {
 
     sheet.appendRow([
       String(body.submitted_at || ''),
+      String(body.role || ''),
       String(body.first_name || '').trim(),
       String(body.last_name || '').trim(),
       email,
+      String(body.organisation || '').trim(),
+      String(body.designation || '').trim(),
       String(body.whatsapp || '').trim(),
       String(body.instagram || '').replace(/^@+/, '').trim(),
       String(body.source || 'waitlist-web'),
@@ -78,8 +84,8 @@ function getSheet() {
 function emailExists(sheet, email) {
   var last = sheet.getLastRow();
   if (last < 2) return false;
-  // Column 4 = email (1-indexed).
-  var values = sheet.getRange(2, 4, last - 1, 1).getValues();
+  // Column 5 = email (1-indexed): submitted_at, role, first_name, last_name, email.
+  var values = sheet.getRange(2, 5, last - 1, 1).getValues();
   var needle = email.toLowerCase();
   for (var i = 0; i < values.length; i++) {
     if (String(values[i][0]).trim().toLowerCase() === needle) return true;

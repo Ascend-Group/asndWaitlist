@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Reveal } from './Reveal'
 import './TheAsk.css'
 
@@ -29,8 +28,6 @@ const ROLES = [
  * applying (creator default). Pricing stays honest: subscription, not a commission.
  */
 export function TheAsk() {
-  const [selected, setSelected] = useState('creator')
-
   return (
     <section id="ask" className="ask tex-dark" aria-label="The ask — founding cohort">
       <div className="ask-glow" aria-hidden="true" />
@@ -56,13 +53,10 @@ export function TheAsk() {
             <div className="ask-picker-label">I’m applying as…</div>
             <div className="ask-roles" role="radiogroup" aria-label="I'm applying as">
               {ROLES.map((r) => (
-                <button
+                <a
                   key={r.id}
-                  type="button"
-                  role="radio"
-                  aria-checked={selected === r.id}
-                  className={`ask-role${selected === r.id ? ' is-selected' : ''}`}
-                  onClick={() => setSelected(r.id)}
+                  href={`index.html?role=${r.id}#waitlist`}
+                  className="ask-role"
                 >
                   <span className="ask-role-ic" aria-hidden="true">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -76,7 +70,7 @@ export function TheAsk() {
                   <svg className="ask-role-arr" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
                     <path d="M9 6l6 6-6 6" />
                   </svg>
-                </button>
+                </a>
               ))}
             </div>
             <p className="ask-picker-foot">A person reads every application.</p>

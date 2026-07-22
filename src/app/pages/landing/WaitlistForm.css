@@ -54,6 +54,39 @@
   margin: 0;
 }
 
+/* ── Role segmented control (I'm applying as…) ── */
+.wl-roles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.wl-role {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  background: var(--page);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 8px;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+.wl-role:hover {
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+.wl-role.is-selected {
+  color: #fff;
+  background: var(--navy);
+  border-color: var(--navy-deep);
+}
+.wl-role:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
 /* ── Fields ── */
 .wl-row {
   display: grid;

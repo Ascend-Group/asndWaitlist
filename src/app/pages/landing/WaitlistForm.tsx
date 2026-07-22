@@ -6,6 +6,13 @@ const TOKEN = import.meta.env.VITE_WAITLIST_TOKEN ?? ''
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+type Role = 'creator' | 'brand' | 'agency'
+const ROLES: { id: Role; label: string; sub: string }[] = [
+  { id: 'creator', label: 'Creator', sub: 'Get found for your craft' },
+  { id: 'brand', label: 'Brand', sub: 'Build a shortlist you trust' },
+  { id: 'agency', label: 'Agency', sub: 'Source from a vetted bench' },
+]
+
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
 interface FieldErrors {
@@ -14,11 +21,19 @@ interface FieldErrors {
   email?: string
 }
 
+/** Preselect the role from a `?role=` query param (set by TheAsk's tiles). */
+function initialRole(): Role {
+  if (typeof window === 'undefined') return 'creator'
+  const r = new URLSearchParams(window.location.search).get('role')
+  return r === 'brand' || r === 'agency' ? r : 'creator'
+}
+
 /**
  * The waitlist capture card. Sits in the hero's right slot (the old live-search
- * panel's place) and is the page's single primary action. First/last/email are
- * required; WhatsApp + Instagram are optional. A hidden honeypot (`company`)
- * silently absorbs bots.
+ * panel's place) and is the page's single primary action. Captures how they're
+ * applying (creator / brand / agency), name + email (required), and optional
+ * organisation, designation, WhatsApp, and Instagram. A hidden honeypot
+ * (`company`) silently absorbs bots.
  *
  * Submits as a CORS "simple request" (text/plain) to a Google Apps Script that
  * appends a row to a Sheet — see apps-script/. If the endpoint isn't configured
@@ -28,6 +43,7 @@ interface FieldErrors {
 export function WaitlistForm() {
   const [status, setStatus] = useState<Status>('idle')
   const [errors, setErrors] = useState<FieldErrors>({})
+  const [role, setRole] = useState<Role>(initialRole)
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -41,9 +57,12 @@ export function WaitlistForm() {
     }
 
     const payload = {
+      role,
       first_name: (data.get('first_name') as string)?.trim() ?? '',
       last_name: (data.get('last_name') as string)?.trim() ?? '',
       email: (data.get('email') as string)?.trim() ?? '',
+      organisation: (data.get('organisation') as string)?.trim() ?? '',
+      designation: (data.get('designation') as string)?.trim() ?? '',
       whatsapp: (data.get('whatsapp') as string)?.trim() ?? '',
       instagram: ((data.get('instagram') as string)?.trim() ?? '').replace(/^@+/, ''),
     }
@@ -123,6 +142,26 @@ export function WaitlistForm() {
         </p>
       </div>
 
+      {/* How they're applying — a real captured field, default Creator. */}
+      <div className="wl-field">
+        <span className="wl-label">I&rsquo;m applying as</span>
+        <div className="wl-roles" role="radiogroup" aria-label="I'm applying as">
+          {ROLES.map((r) => (
+            <button
+              key={r.id}
+              type="button"
+              role="radio"
+              aria-checked={role === r.id}
+              className={role === r.id ? 'wl-role is-selected' : 'wl-role'}
+              onClick={() => setRole(r.id)}
+              title={r.sub}
+            >
+              {r.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="wl-row">
         <label className="wl-field">
           <span className="wl-label">First name</span>
@@ -162,6 +201,33 @@ export function WaitlistForm() {
         />
         {errors.email && <span className="wl-err">{errors.email}</span>}
       </label>
+
+      <div className="wl-row">
+        <label className="wl-field">
+          <span className="wl-label">
+            {role === 'creator' ? 'Studio / label' : 'Organisation'} <span className="wl-opt">optional</span>
+          </span>
+          <input
+            name="organisation"
+            type="text"
+            autoComplete="organization"
+            className="wl-input"
+            placeholder={role === 'agency' ? 'Agency name' : 'Where you work'}
+          />
+        </label>
+        <label className="wl-field">
+          <span className="wl-label">
+            Designation <span className="wl-opt">optional</span>
+          </span>
+          <input
+            name="designation"
+            type="text"
+            autoComplete="organization-title"
+            className="wl-input"
+            placeholder="Your role"
+          />
+        </label>
+      </div>
 
       <div className="wl-row">
         <label className="wl-field">
