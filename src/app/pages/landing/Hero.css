@@ -20,24 +20,6 @@
 }
 
 /* ── Left: the claim ──────────────────────────────────────────────────────── */
-.hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: 12.5px;
-  letter-spacing: 0.17em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 22px;
-}
-.hero-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent);
-}
 .hero-h1 {
   font-family: var(--font-display);
   font-weight: 500;
@@ -58,16 +40,8 @@
   font-size: 21px;
   line-height: 1.5;
   color: var(--body);
-  margin: 0 0 14px;
-  max-width: 480px;
-}
-.hero-support {
-  font-family: var(--font-sans);
-  font-size: 16px;
-  line-height: 1.55;
-  color: var(--text-muted);
   margin: 0 0 30px;
-  max-width: 470px;
+  max-width: 480px;
 }
 .hero-cta {
   display: flex;

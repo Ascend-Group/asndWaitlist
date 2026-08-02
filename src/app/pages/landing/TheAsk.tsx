@@ -5,43 +5,42 @@ const ROLES = [
   {
     id: 'creator',
     title: 'I’m a creator',
-    sub: 'Get found for your craft',
+    sub: 'Get hired for your work.',
     icon: <><circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 4-6 8-6s8 2 8 6" /></>,
   },
   {
     id: 'brand',
     title: 'I’m a brand',
-    sub: 'Build a shortlist you trust',
+    sub: 'Get a vetted shortlist.',
     icon: <><path d="M3 21V7l9-4 9 4v14" /><path d="M9 21v-6h6v6" /></>,
   },
   {
     id: 'agency',
     title: 'I’m an agency',
-    sub: 'Source from a vetted bench',
+    sub: 'Hire vetted talent.',
     icon: <><circle cx="9" cy="8" r="3" /><circle cx="17" cy="9" r="2.5" /><path d="M3 20c0-3.3 2.7-5 6-5s6 1.7 6 5" /><path d="M15.5 15c2.5.3 4.5 1.8 4.5 5" /></>,
   },
 ]
 
 /**
- * The ask — the closing ink bookend. End on the apply: invitations roll out by
- * discipline, a real person reads every one. The role picker selects how you're
- * applying (creator default). Pricing stays honest: subscription, not a commission.
+ * The ask — the closing ink bookend. End on the ask: one niche at a time, a
+ * person reads every application. The role picker selects how you're applying
+ * (creator default). Pricing stays honest: subscription, not a commission.
  */
 export function TheAsk() {
   return (
-    <section id="ask" className="ask tex-dark" aria-label="The ask — founding cohort">
+    <section id="ask" className="ask tex-dark" aria-label="Join the waitlist">
       <div className="ask-glow" aria-hidden="true" />
       <div className="ask-in">
         <div className="ask-grid">
           <div className="ask-left">
-            <Reveal className="ask-eyebrow">Founding cohort</Reveal>
+            <Reveal className="ask-eyebrow">The waitlist</Reveal>
             <Reveal as="h2" className="ask-h2">Be one of the founding members.</Reveal>
             <Reveal as="p" className="ask-lede">
-              Invitations roll out by discipline, and a real person reads every application. This is
-              curated, not open sign-up.
+              We open one niche at a time. This is curated, not open sign-up.
             </Reveal>
             <Reveal as="p" className="ask-fine">
-              Invite-only. Mumbai first. Access by subscription, not a commission on your work.
+              Mumbai first. Access by subscription, not a commission on your work.
             </Reveal>
             <Reveal className="ask-cta">
               <a href="index.html#waitlist" className="ask-btn ask-btn--primary">Join the waitlist</a>

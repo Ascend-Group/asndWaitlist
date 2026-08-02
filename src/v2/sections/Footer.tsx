@@ -14,7 +14,7 @@ const FOOTER_COLS: { id: string; heading: string; links: FootLink[] }[] = [
     id: 'asnd',
     heading: 'ASND',
     links: [
-      { label: 'Why now', href: 'about.html#why' },
+      { label: 'The problem', href: 'about.html#problem' },
       { label: 'How it works', href: 'about.html#how' },
       { label: 'The full story', href: 'about.html' },
     ],
@@ -32,7 +32,7 @@ const FOOTER_COLS: { id: string; heading: string; links: FootLink[] }[] = [
     id: 'connect',
     heading: 'Connect',
     links: [
-      { label: 'Instagram', href: 'https://instagram.com/asnd', external: true },
+      { label: 'Social media', href: 'https://instagram.com/asnd', external: true },
       { label: 'Email us', href: 'mailto:hello@asnd.in' },
     ],
   },
@@ -68,10 +68,10 @@ export function Footer() {
 
         {/* ── Base line — contact + location ── */}
         <div className="foot-base">
-          <span>© 2026 ASND · Invite-only</span>
+          <span>© 2026 ASND · A vetted network</span>
           <span className="foot-contact">
             <a href="mailto:hello@asnd.in" className="fc-link">hello@asnd.in</a>
-            <a href="https://instagram.com/asnd" target="_blank" rel="noreferrer" className="fc-link">Instagram</a>
+            <a href="https://instagram.com/asnd" target="_blank" rel="noreferrer" className="fc-link">Social media</a>
             <span>Mumbai, India</span>
           </span>
         </div>

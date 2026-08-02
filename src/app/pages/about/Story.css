@@ -1,0 +1,202 @@
+/* ─── /about — three chapters: problem → solution → story ─────────────────────
+   Calm bands on the shared 1240 grid: white → navy → cream. Copy ported from
+   the main site's rebuilt About; styled in this repo's ink/blue vocabulary.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* ── Shared eyebrow — chapter number + label ─────────────────────────────── */
+.abs-eyebrow {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 18px;
+  font-family: var(--font-sans);
+}
+.abs-eyebrow-n {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+}
+.abs-eyebrow-l {
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.abs-eyebrow--dark .abs-eyebrow-n {
+  color: #9db4dd;
+}
+.abs-eyebrow--dark .abs-eyebrow-l {
+  color: rgba(233, 239, 248, 0.72);
+}
+
+/* ── 01 · The problem — white statement surface ──────────────────────────── */
+.abp {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: clamp(64px, 8vw, 96px) var(--gutter);
+}
+.abp-in {
+  max-width: var(--container);
+  margin: 0 auto;
+}
+.abp-h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(30px, 3.6vw, 46px);
+  line-height: 1.08;
+  color: var(--ink);
+  margin: 0 0 22px;
+  max-width: 22ch;
+  text-wrap: balance;
+}
+.abp-lead {
+  font-family: var(--font-sans);
+  font-size: clamp(16.5px, 1.7vw, 19px);
+  line-height: 1.65;
+  color: var(--body);
+  margin: 0;
+  max-width: 62ch;
+}
+.abp-lead + .abp-lead {
+  margin-top: 14px;
+}
+.abp-foot {
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  color: var(--text-muted);
+  margin: 18px 0 0;
+}
+
+/* ── 02 · The solution — navy band, the four rules ───────────────────────── */
+.abs {
+  background: var(--navy);
+  color: #f2f5fa;
+  padding: clamp(64px, 8vw, 96px) var(--gutter);
+}
+.abs-in {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(36px, 5vw, 72px);
+  align-items: start;
+}
+.abs-h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(30px, 3.6vw, 46px);
+  line-height: 1.08;
+  color: #fff;
+  margin: 0 0 18px;
+  text-wrap: balance;
+}
+.abs-lead {
+  font-family: var(--font-sans);
+  font-size: clamp(15.5px, 1.6vw, 17.5px);
+  line-height: 1.65;
+  color: rgba(233, 239, 248, 0.82);
+  margin: 0;
+  max-width: 46ch;
+}
+.abs-list {
+  display: grid;
+  gap: 18px;
+}
+.abs-rule {
+  display: flex;
+  gap: 18px;
+  align-items: baseline;
+  padding: 18px 20px;
+  border: 1px solid rgba(233, 239, 248, 0.14);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+}
+.abs-rule-n {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 13px;
+  color: #9db4dd;
+  flex: 0 0 auto;
+}
+.abs-rule-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.25;
+  color: #fff;
+  margin-bottom: 6px;
+}
+.abs-rule-sub {
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: rgba(233, 239, 248, 0.72);
+}
+
+/* ── 03 · The story — cream letter ───────────────────────────────────────── */
+.abl {
+  background: var(--cream);
+  border-top: 1px solid var(--cream-border);
+  padding: clamp(64px, 8vw, 96px) var(--gutter);
+}
+.abl-in {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(36px, 5vw, 72px);
+  align-items: start;
+}
+.abl-h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(28px, 3.2vw, 40px);
+  line-height: 1.1;
+  color: var(--ink);
+  margin: 0;
+  text-wrap: balance;
+}
+.abl-body p {
+  font-family: var(--font-sans);
+  font-size: clamp(16px, 1.65vw, 18px);
+  line-height: 1.7;
+  color: var(--body);
+  margin: 0;
+  max-width: 60ch;
+}
+.abl-body p + p {
+  margin-top: 16px;
+}
+.abl-body em {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--ink);
+}
+.abl-signoff {
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid var(--cream-border);
+}
+.abl-signoff-name {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--ink);
+}
+.abl-signoff-meta {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+@media (max-width: 860px) {
+  .abs-in,
+  .abl-in {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}

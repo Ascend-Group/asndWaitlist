@@ -23,26 +23,19 @@ export function Hero() {
           initial={reduce ? false : 'hidden'}
           animate={reduce ? false : 'shown'}
         >
-          <motion.span className="hero-eyebrow" variants={reduce ? undefined : rise}>
-            <span className="hero-dot" aria-hidden="true" />
-            Vetted creative network
-          </motion.span>
           <motion.h1 className="hero-h1" variants={reduce ? undefined : rise}>
-            Find the <em>right</em> creative for the right campaign.
+            A <em>vetted</em> network for creators, brands and agencies.
           </motion.h1>
           <motion.p className="hero-sub" variants={reduce ? undefined : rise}>
-            An invite-only network of vetted creatives you can search by craft, not by clout.
-          </motion.p>
-          <motion.p className="hero-support" variants={reduce ? undefined : rise}>
-            We&rsquo;re building it Mumbai-first, by discipline. Don&rsquo;t just join ASND —
-            be part of the waitlist and we&rsquo;ll invite you as spots open.
+            We are opening with founding members, one niche at a time. Join the
+            waitlist and we will reach out as spots open.
           </motion.p>
           <motion.div className="hero-cta" variants={reduce ? undefined : rise}>
             <a href="#waitlist" className="hero-btn hero-btn--primary">Join the waitlist</a>
             <a href="about.html" className="hero-btn hero-btn--secondary">Read our story</a>
           </motion.div>
           <motion.p className="hero-foot" variants={reduce ? undefined : rise}>
-            Built on <strong>50+ conversations</strong> across India&rsquo;s creative scene.
+            Built from <strong>41 interviews</strong> with creators, brands and agencies.
           </motion.p>
         </motion.div>
 

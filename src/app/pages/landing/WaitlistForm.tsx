@@ -8,9 +8,9 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 type Role = 'creator' | 'brand' | 'agency'
 const ROLES: { id: Role; label: string; sub: string }[] = [
-  { id: 'creator', label: 'Creator', sub: 'Get found for your craft' },
-  { id: 'brand', label: 'Brand', sub: 'Build a shortlist you trust' },
-  { id: 'agency', label: 'Agency', sub: 'Source from a vetted bench' },
+  { id: 'creator', label: 'Creator', sub: 'Get hired for your work' },
+  { id: 'brand', label: 'Brand', sub: 'Get a vetted shortlist' },
+  { id: 'agency', label: 'Agency', sub: 'Hire vetted talent' },
 ]
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
@@ -32,7 +32,8 @@ function initialRole(): Role {
  * The waitlist capture card. Sits in the hero's right slot (the old live-search
  * panel's place) and is the page's single primary action. Captures how they're
  * applying (creator / brand / agency), name + email (required), and optional
- * organisation, designation, WhatsApp, and Instagram. A hidden honeypot
+ * organisation, designation, phone, and a social-media link (the posted key
+ * stays `instagram` for the Apps Script contract). A hidden honeypot
  * (`company`) silently absorbs bots.
  *
  * Submits as a CORS "simple request" (text/plain) to a Google Apps Script that
@@ -121,8 +122,8 @@ export function WaitlistForm() {
         </div>
         <h3 className="wl-done-title">You&rsquo;re on the list.</h3>
         <p className="wl-done-sub">
-          Invitations roll out by discipline, and a real person reads every one.
-          We&rsquo;ll be in touch when a spot opens for you.
+          Invitations go out one niche at a time, and a person reads every one.
+          We will be in touch when a spot opens for you.
         </p>
       </div>
     )
@@ -137,8 +138,7 @@ export function WaitlistForm() {
         </span>
         <h2 className="wl-title">Be part of the waitlist.</h2>
         <p className="wl-lede">
-          Invite-only, and filling by discipline. Add your details and we&rsquo;ll
-          reach out as spots open.
+          Filling one niche at a time. Add your details below.
         </p>
       </div>
 
@@ -232,7 +232,7 @@ export function WaitlistForm() {
       <div className="wl-row">
         <label className="wl-field">
           <span className="wl-label">
-            WhatsApp <span className="wl-opt">optional</span>
+            Phone <span className="wl-opt">optional</span>
           </span>
           <input
             name="whatsapp"
@@ -245,7 +245,7 @@ export function WaitlistForm() {
         </label>
         <label className="wl-field">
           <span className="wl-label">
-            Instagram <span className="wl-opt">optional</span>
+            Social media <span className="wl-opt">optional</span>
           </span>
           <input
             name="instagram"
@@ -254,7 +254,7 @@ export function WaitlistForm() {
             autoCorrect="off"
             spellCheck={false}
             className="wl-input"
-            placeholder="@yourhandle"
+            placeholder="yourprofile.com"
           />
         </label>
       </div>
