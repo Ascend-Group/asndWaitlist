@@ -6,13 +6,16 @@ no database, no monthly cost, unlimited rows. You can download the Sheet as
 
 ## One-time setup
 
-1. **Create the Sheet.** Go to <https://sheets.new>, name it e.g.
-   `ASND Waitlist`. (The script creates a `Waitlist` tab with headers on first
-   submission — you don't need to add columns yourself.)
+1. **Use the shared Drive folder.** The script is configured for the
+   [ASND waitlist folder](https://drive.google.com/drive/folders/1Lc2S_uVFePgJk6xg8EKNJoJVnQ1sPcZb?dmr=1&ec=wgc-drive-%5Bmodule%5D-goto).
+   On the first submission it finds an `ASND Waitlist` spreadsheet there, or
+   creates one in that folder automatically. It then creates a `Waitlist` tab
+   with headers — you don't need to add columns yourself.
 
-2. **Add the script.** In that Sheet: **Extensions → Apps Script**. Delete the
-   placeholder `myFunction`, then paste the entire contents of
-   [`Code.gs`](./Code.gs). Click the **Save** icon.
+2. **Add the script.** Open <https://script.google.com>, create a standalone
+   project, delete the placeholder `myFunction`, then paste the entire contents
+   of [`Code.gs`](./Code.gs). Click the **Save** icon. The first run will ask
+   for permission to access Drive and Sheets.
 
 3. **Set the shared token.** In the Apps Script editor: **Project Settings**
    (the gear) → **Script properties → Add script property**:
@@ -45,6 +48,9 @@ no database, no monthly cost, unlimited rows. You can download the Sheet as
 
 ## Notes
 
+- **Stored fields:** submitted time, role, name, email, organisation,
+  designation, phone, Instagram/portfolio link, message, source, and received
+  time are stored as columns.
 - **Duplicates:** a repeat email is accepted but doesn't add a second row.
 - **Spam:** the form has a hidden honeypot field; bots that fill it are silently
   dropped client-side. The token blocks casual direct POSTs.

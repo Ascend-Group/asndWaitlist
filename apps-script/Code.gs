@@ -2,13 +2,16 @@
  * ASND waitlist — Google Apps Script Web App backend.
  *
  * Receives POSTs from the waitlist form (src/app/pages/landing/WaitlistForm.tsx)
- * and appends one row per signup to the bound Google Sheet. Deploy this as a Web
- * App (execute as: Me · who has access: Anyone). See apps-script/README.md.
+ * and appends one row per signup to the ASND Waitlist Sheet in the configured
+ * Drive folder. Deploy this as a Web App (execute as: Me · who has access:
+ * Anyone). See apps-script/README.md.
  *
  * The form sends Content-Type: text/plain so the browser skips the CORS
  * preflight; the JSON body is parsed from e.postData.contents.
  */
 
+var FOLDER_ID = '1Lc2S_uVFePgJk6xg8EKNJoJVnQ1sPcZb';
+var SPREADSHEET_NAME = 'ASND Waitlist';
 var SHEET_NAME = 'Waitlist';
 var HEADERS = [
   'submitted_at', // client timestamp (ISO)
@@ -20,6 +23,7 @@ var HEADERS = [
   'designation',
   'whatsapp',
   'instagram',
+  'message',
   'source',
   'received_at', // server timestamp
 ];
@@ -54,6 +58,7 @@ function doPost(e) {
       String(body.designation || '').trim(),
       String(body.whatsapp || '').trim(),
       String(body.instagram || '').replace(/^@+/, '').trim(),
+      String(body.message || '').trim(),
       String(body.source || 'waitlist-web'),
       new Date().toISOString(),
     ]);
@@ -70,7 +75,7 @@ function doGet() {
 }
 
 function getSheet() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSpreadsheet();
   var sheet = ss.getSheetByName(SHEET_NAME);
   if (!sheet) {
     sheet = ss.insertSheet(SHEET_NAME);
@@ -79,6 +84,28 @@ function getSheet() {
     sheet.appendRow(HEADERS);
   }
   return sheet;
+}
+
+function getSpreadsheet() {
+  var properties = PropertiesService.getScriptProperties();
+  var configuredId = properties.getProperty('SPREADSHEET_ID') || '';
+  if (configuredId) return SpreadsheetApp.openById(configuredId);
+
+  var folder = DriveApp.getFolderById(FOLDER_ID);
+  var files = folder.getFilesByName(SPREADSHEET_NAME);
+  while (files.hasNext()) {
+    var file = files.next();
+    if (file.getMimeType() === MimeType.GOOGLE_SHEETS) {
+      properties.setProperty('SPREADSHEET_ID', file.getId());
+      return SpreadsheetApp.openById(file.getId());
+    }
+  }
+
+  var created = SpreadsheetApp.create(SPREADSHEET_NAME);
+  var createdFile = DriveApp.getFileById(created.getId());
+  createdFile.moveTo(folder);
+  properties.setProperty('SPREADSHEET_ID', created.getId());
+  return created;
 }
 
 function emailExists(sheet, email) {

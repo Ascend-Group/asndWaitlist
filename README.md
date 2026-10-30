@@ -4,21 +4,19 @@ The public **waitlist landing site** for [ASND](https://github.com/Ascend-Group)
 a lightweight, static fork of the `asndFrontend` landing, built to link from the
 Instagram bio and collect prospective users into a Google Sheet.
 
-It reuses ASND's design system verbatim (ink-blue palette, Cormorant / Hanken /
-Poiret type, engraved textures) but strips every backend-coupled interaction: no
-auth, no live search, no real profiles. The only server dependency is the form
-endpoint (a Google Apps Script).
+The landing uses the current ASNDV2 visual design: its typography, spacing,
+motion, imagery, tabbed audience section, and application form are bundled as a
+static page. The only server dependency is the form endpoint (a Google Apps
+Script).
 
-- **Landing** (`index.html`) — hero reframed around the waitlist, with the
-  capture form above the fold; who it's for; a closing ask.
-- **About** (`about.html`) — the full ASND story, copy unchanged.
+- **Landing** (`index.html`) — the complete ASNDV2 waitlist experience.
 
 ## Stack
 
-Vite + React + Motion, Tailwind v4, built as a **2-page static MPA** (two real
-HTML files, no client router). Output is a plain static bundle that hosts
-anywhere. Asset URLs are base-relative, so the same build works at a domain root
-**or** under a project subpath like `…github.io/asndWaitlist/`.
+Vite + React + Tailwind v4, built as one static page with no client router.
+Output is a plain static bundle that hosts anywhere. Asset URLs are
+base-relative, so the same build works at a domain root **or** under a project
+subpath like `…github.io/asndWaitlist/`.
 
 ## Develop
 
@@ -32,7 +30,7 @@ npm run typecheck  # tsc --noEmit
 
 ## Capture form → Google Sheet
 
-Submissions (first name, last name, email, WhatsApp, Instagram) POST to a Google
+Submissions (name, email, role, phone, portfolio link) POST to a Google
 Apps Script that appends a row to a Sheet you own — free, unlimited, exportable
 to `.xlsx`. **Setup is a 5-minute one-time task:** see
 [`apps-script/README.md`](./apps-script/README.md).
@@ -70,9 +68,8 @@ output dir `dist`, and the same two build-time env vars. Serves at
 ## Relationship to the main app
 
 This is a standalone marketing site, intentionally **not** part of
-`asndFrontend`. The components under `src/v2`, `src/app/pages/landing`, and
-`src/app/pages/about` are a snapshot fork of the app's landing/About — kept
-lightweight and backend-free. When ASND opens publicly, retire this site and
-point the bio at the real app.
+`asndFrontend`. The source in `src/App.tsx` is a snapshot of the current
+ASNDV2 design. When ASND opens publicly, retire this site and point the bio at
+the real app.
 
 Design record: [`docs/superpowers/specs/2026-07-22-asnd-waitlist-design.md`](./docs/superpowers/specs/2026-07-22-asnd-waitlist-design.md).
