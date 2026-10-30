@@ -89,7 +89,11 @@ function getSheet() {
 function getSpreadsheet() {
   var properties = PropertiesService.getScriptProperties();
   var configuredId = properties.getProperty('SPREADSHEET_ID') || '';
-  if (configuredId) return SpreadsheetApp.openById(configuredId);
+  if (configuredId) {
+    try {
+      return SpreadsheetApp.openById(configuredId);
+    } catch (e) {}
+  }
 
   var folder = DriveApp.getFolderById(FOLDER_ID);
   var files = folder.getFilesByName(SPREADSHEET_NAME);
@@ -101,9 +105,13 @@ function getSpreadsheet() {
     }
   }
 
+  // Create spreadsheet directly in the specified folder
   var created = SpreadsheetApp.create(SPREADSHEET_NAME);
   var createdFile = DriveApp.getFileById(created.getId());
-  createdFile.moveTo(folder);
+  folder.addFile(createdFile);
+  try {
+    DriveApp.getRootFolder().removeFile(createdFile);
+  } catch (e) {}
   properties.setProperty('SPREADSHEET_ID', created.getId());
   return created;
 }
