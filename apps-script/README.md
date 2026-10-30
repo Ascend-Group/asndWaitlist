@@ -7,7 +7,7 @@ no database, no monthly cost, unlimited rows. You can download the Sheet as
 ## One-time setup
 
 1. **Use the shared Drive folder.** The script is configured for the
-   [ASND waitlist folder](https://drive.google.com/drive/folders/1Lc2S_uVFePgJk6xg8EKNJoJVnQ1sPcZb?dmr=1&ec=wgc-drive-%5Bmodule%5D-goto).
+   [ASND waitlist folder](https://drive.google.com/drive/folders/1XyF9zY1CCvT_xIp8l-O22SllP6elGeaF) owned by `asnddev@gmail.com`.
    On the first submission it finds an `ASND Waitlist` spreadsheet there, or
    creates one in that folder automatically. It then creates a `Waitlist` tab
    with headers — you don't need to add columns yourself.

@@ -10,7 +10,7 @@
  * preflight; the JSON body is parsed from e.postData.contents.
  */
 
-var FOLDER_ID = '1Lc2S_uVFePgJk6xg8EKNJoJVnQ1sPcZb';
+var FOLDER_ID = '1XyF9zY1CCvT_xIp8l-O22SllP6elGeaF';
 var SPREADSHEET_NAME = 'ASND Waitlist';
 var SHEET_NAME = 'Waitlist';
 var HEADERS = [
