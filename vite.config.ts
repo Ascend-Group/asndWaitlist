@@ -1,14 +1,7 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
-import { fileURLToPath, URL } from 'node:url'
 
 // Relative base keeps the bundle working at a domain root and under the
 // GitHub Pages project subpath.
 export default defineConfig({
   base: './',
-  plugins: [react(), tailwindcss()],
-  resolve: {
-    alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
-  },
 })
