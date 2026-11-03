@@ -35,6 +35,7 @@ const imgWishList3 = `${assetPathPrefix}/30726.png`;
 const imgImage = `${assetPathPrefix}/b9dc9.png`;
 const imgImage1 = `${assetPathPrefix}/21386.png`;
 const imgVideoContentImage = `${assetPathPrefix}/510c7.png`;
+const heroVideoUrl = "https://framerusercontent.com/assets/odnrWUwTiyRvSi7hRiUsUFV3wo.mp4";
 const imgIPhoneVideo = `${assetPathPrefix}/a7aab.png`;
 const imgImage2 = `${assetPathPrefix}/046c5.png`;
 const imgContainer = `${assetPathPrefix}/19862.png`;
@@ -767,12 +768,18 @@ social strategy that earns results. Let's talk"
               </div>
               <div className="bg-[rgba(255,255,255,0)] h-[615.48px] overflow-clip relative rounded-[54px] shadow-[0px_10px_20px_0px_rgba(0,0,1,0.3)] shrink-0 w-[295.61px]" data-node-id="1:462" data-name="I Phone Video">
                 <div className="absolute content-stretch flex flex-col inset-[0.27%_1.51%_0.27%_1.5%] items-center justify-center overflow-clip" data-node-id="1:463" data-name="Video">
-                  <div className="absolute inset-px" data-node-id="1:464" data-name="Video Content → image">
-                    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                      <img alt="" className="absolute h-full left-[-140.48%] max-w-none top-0 w-[380.96%]" src={imgVideoContentImage} />
-                    </div>
+                  <div className="absolute inset-px overflow-hidden rounded-[24px]" data-node-id="1:464" data-name="Video Content">
+                    <video
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      poster={imgVideoContentImage}
+                      src={heroVideoUrl}
+                      className="w-full h-full object-cover block"
+                    />
                   </div>
-                  <Component1 className="h-[612.132px] overflow-clip relative shrink-0 w-full" variant="8" />
+                  <Component1 className="h-[612.132px] overflow-clip relative shrink-0 w-full pointer-events-none" variant="8" />
                 </div>
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
                   <img alt="" className="absolute h-[99.86%] left-0 max-w-none top-[0.07%] w-full" src={imgIPhoneVideo} />
@@ -845,56 +852,100 @@ social strategy that earns results. Let's talk"
             </div>
             <div className="content-stretch flex flex-col h-[91px] items-start justify-center relative shrink-0 w-[1200px]" data-node-id="1:499" data-name="Container">
               <div className="bg-white flex-[1_0_0] min-h-px overflow-clip relative w-full" data-node-id="1:500" data-name="Section">
-                <div className="-translate-y-1/2 absolute content-stretch flex items-start left-[22px] top-1/2 animate-[logoMarqueeLeft_24s_linear_3s_infinite]" data-node-id="1:501" data-name="Container">
-                  <div className="content-stretch flex gap-[65px] items-center pr-[65px] relative self-stretch shrink-0" data-node-id="1:502" data-name="Container">
-                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-node-id="1:503" data-name="Container">
-                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap" data-node-id="1:504">
-                        <p className="leading-[14px]">{`Music & Entertainment`}</p>
+                <div className="-translate-y-1/2 absolute content-stretch flex items-start left-[22px] top-1/2 animate-[logoMarqueeLeft_24s_linear_infinite]" data-node-id="1:501" data-name="Container">
+                  <div className="content-stretch flex gap-[65px] items-center pr-[65px] relative self-stretch shrink-0" data-name="Container">
+                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
+                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap">
+                        <p className="leading-[14px]">Music & Entertainment</p>
                       </div>
                     </div>
-                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-node-id="1:505" data-name="Container">
-                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap" data-node-id="1:506">
-                        <p className="leading-[14px]">{`Events & Nightlife`}</p>
+                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
+                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap">
+                        <p className="leading-[14px]">Events & Nightlife</p>
                       </div>
                     </div>
-                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-node-id="1:507" data-name="Container">
-                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap" data-node-id="1:508">
-                        <p className="leading-[14px]">{`Media & Advertising`}</p>
+                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
+                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap">
+                        <p className="leading-[14px]">Media & Advertising</p>
                       </div>
                     </div>
-                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-node-id="1:509" data-name="Container">
-                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap" data-node-id="1:510">
-                        <p className="leading-[14px]">{`Luxury & Lifestyle`}</p>
+                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
+                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap">
+                        <p className="leading-[14px]">Luxury & Lifestyle</p>
                       </div>
                     </div>
-                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-node-id="1:511" data-name="Container">
-                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap" data-node-id="1:512">
-                        <p className="leading-[14px]">{`Fashion & Apparel`}</p>
+                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
+                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap">
+                        <p className="leading-[14px]">Fashion & Apparel</p>
                       </div>
                     </div>
-                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-node-id="1:513" data-name="Container">
-                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap" data-node-id="1:514">
-                        <p className="leading-[14px]">{`Hospitality & Travel`}</p>
+                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
+                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap">
+                        <p className="leading-[14px]">Hospitality & Travel</p>
                       </div>
                     </div>
-                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-node-id="1:515" data-name="Container">
-                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap" data-node-id="1:516">
-                        <p className="leading-[14px]">{`Food & Beverage`}</p>
+                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
+                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap">
+                        <p className="leading-[14px]">Food & Beverage</p>
                       </div>
                     </div>
-                    <div className="h-[14px] relative shrink-0 w-[112.45px]" data-node-id="1:517" data-name="Rectangle" />
-                    <div className="h-[14px] relative shrink-0 w-[140.98px]" data-node-id="1:518" data-name="Rectangle" />
+                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
+                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap">
+                        <p className="leading-[14px]">Fitness & Wellness</p>
+                      </div>
+                    </div>
+                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
+                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap">
+                        <p className="leading-[14px]">Beauty & Personal Care</p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="content-stretch flex gap-[65px] items-center pr-[65px] relative self-stretch shrink-0" data-node-id="1:519" data-name="Container">
-                    <div className="h-[14px] relative shrink-0 w-[135.63px]" data-node-id="1:520" data-name="Rectangle" />
-                    <div className="h-[14px] relative shrink-0 w-[104.98px]" data-node-id="1:521" data-name="Rectangle" />
-                    <div className="h-[14px] relative shrink-0 w-[118.81px]" data-node-id="1:522" data-name="Rectangle" />
-                    <div className="h-[14px] relative shrink-0 w-[105.86px]" data-node-id="1:523" data-name="Rectangle" />
-                    <div className="h-[14px] relative shrink-0 w-[108.22px]" data-node-id="1:524" data-name="Rectangle" />
-                    <div className="h-[14px] relative shrink-0 w-[113.28px]" data-node-id="1:525" data-name="Rectangle" />
-                    <div className="h-[14px] relative shrink-0 w-[101.58px]" data-node-id="1:526" data-name="Rectangle" />
-                    <div className="h-[14px] relative shrink-0 w-[112.45px]" data-node-id="1:527" data-name="Rectangle" />
-                    <div className="h-[14px] relative shrink-0 w-[140.98px]" data-node-id="1:528" data-name="Rectangle" />
+                  <div className="content-stretch flex gap-[65px] items-center pr-[65px] relative self-stretch shrink-0" data-name="Container">
+                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
+                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap">
+                        <p className="leading-[14px]">Music & Entertainment</p>
+                      </div>
+                    </div>
+                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
+                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap">
+                        <p className="leading-[14px]">Events & Nightlife</p>
+                      </div>
+                    </div>
+                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
+                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap">
+                        <p className="leading-[14px]">Media & Advertising</p>
+                      </div>
+                    </div>
+                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
+                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap">
+                        <p className="leading-[14px]">Luxury & Lifestyle</p>
+                      </div>
+                    </div>
+                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
+                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap">
+                        <p className="leading-[14px]">Fashion & Apparel</p>
+                      </div>
+                    </div>
+                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
+                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap">
+                        <p className="leading-[14px]">Hospitality & Travel</p>
+                      </div>
+                    </div>
+                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
+                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap">
+                        <p className="leading-[14px]">Food & Beverage</p>
+                      </div>
+                    </div>
+                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
+                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap">
+                        <p className="leading-[14px]">Fitness & Wellness</p>
+                      </div>
+                    </div>
+                    <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
+                      <div className="[word-break:break-word] flex flex-col font-['Geist:Regular'] font-normal justify-center leading-[0] relative shrink-0 text-[#7a7a7a] text-[14px] tracking-[-0.42px] whitespace-nowrap">
+                        <p className="leading-[14px]">Beauty & Personal Care</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

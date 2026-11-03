@@ -288,7 +288,8 @@
   }
 
   [data-name="Hero Content Wrapper"] {
-    display: none !important;
+    width: 367px !important;
+    max-width: 100% !important;
   }
 
   [data-name="Background"] {
