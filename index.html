@@ -777,6 +777,16 @@ form[data-framer-form],
   font-size: 13px !important;
   color: #64748b !important;
 }
+
+/* Ensure "Designed for" card images always render crisply and cover properly without distortion */
+.framer-rlryml img,
+.framer-rlryml [data-framer-background-image-wrapper] img,
+.framer-jYxcQ img {
+  object-fit: cover !important;
+  object-position: center !important;
+  width: 100% !important;
+  height: 100% !important;
+}
 </style>
 </head>
 <body>
@@ -1121,6 +1131,7 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
         if (input.getAttribute('name') !== 'Phone') input.setAttribute('name', 'Phone');
         if (input.getAttribute('type') !== 'tel') input.setAttribute('type', 'tel');
         input.removeAttribute('required');
+        input.placeholder = "5854142745 or 585-414-2745";
       }
 
       if (picker) return;
@@ -1330,7 +1341,7 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
       ],
       buttonText: 'Join as a Brand',
       role: 'Brand',
-      image: './images/RcvP7FZcK0fNvnjU9QO1OoJbEro.jpg?width=5578&height=3719'
+      image: './images/XxcJWjRULVnTLQGzDcSEeYZg.jpeg?width=736&height=1308'
     },
     agencies: {
       title: 'Agencies',
@@ -1398,7 +1409,11 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
       const img = card.querySelector('.framer-rlryml img');
       if (img) {
         img.src = data.image;
-        img.srcset = data.image + ' 1x';
+        img.removeAttribute('srcset');
+        img.style.objectFit = 'cover';
+        img.style.objectPosition = 'center';
+        img.style.width = '100%';
+        img.style.height = '100%';
       }
     });
 
@@ -1482,16 +1497,20 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
       return clearError();
     }
 
-    // PHONE (optional)
+    // PHONE (optional - if entered, must be xxxxxxxxxx or xxx-xxx-xxxx)
     if (fieldType === 'Phone') {
       if (!val) return clearError();
-      if (/[^0-9\s+\-()]/.test(rawVal)) {
-        return setError('Phone number can only contain digits, spaces, +, -, and ().');
-      }
-      const digits = val.replace(/[^0-9]/g, '');
+
+      // Accept both 10 digits (xxxxxxxxxx) or 3-3-4 dashed format (xxx-xxx-xxxx)
+      const phoneRegex = /^(\d{10}|\d{3}-\d{3}-\d{4})$/;
+
       if (isBlur || hasError) {
-        if (digits.length > 0 && digits.length < 7) {
-          return setError('Please enter a valid phone number (at least 7 digits) or leave blank.');
+        if (!phoneRegex.test(val)) {
+          return setError('Please enter phone number as 10 digits (xxxxxxxxxx) or xxx-xxx-xxxx.');
+        }
+      } else {
+        if (/[^0-9-]/.test(rawVal)) {
+          return setError('Phone number can only contain digits and hyphens (-).');
         }
       }
       return clearError();
@@ -1770,6 +1789,12 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
           if (btnTextEl) btnTextEl.textContent = "Submitting...";
         }
 
+        const countryCode = (currentSelectedCountry && currentSelectedCountry.code)
+          ? (currentSelectedCountry.code.startsWith('+') ? currentSelectedCountry.code : ('+' + currentSelectedCountry.code))
+          : '+1';
+
+        const formattedPhone = phone ? (countryCode + ' ' + phone) : '';
+
         try {
           const res = await fetch(ENDPOINT, {
             method: "POST",
@@ -1781,7 +1806,9 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
               email: email,
               organisation: "",
               designation: "",
-              whatsapp: phone ? (currentSelectedCountry.code + " " + phone) : "",
+              whatsapp: formattedPhone ? ("'" + formattedPhone) : "",
+              phone: formattedPhone,
+              phone_number: formattedPhone,
               instagram: link,
               message: message,
               token: TOKEN,

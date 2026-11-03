@@ -43,7 +43,7 @@ function doPost(e) {
       String(body.first_name || '').trim(),
       String(body.last_name || '').trim(),
       email,
-      String(body.whatsapp || body.phone || '').trim(),
+      formatPhone(body),
       String(body.instagram || body.link || '').replace(/^@+/, '').trim(),
       String(body.message || '').trim(),
       String(body.source || 'Website Waitlist')
@@ -56,6 +56,7 @@ function doPost(e) {
     rowRange.setVerticalAlignment('middle');
     rowRange.setFontFamily('Inter');
     rowRange.setFontSize(10);
+    sheet.getRange(newRow, 6).setNumberFormat('@');
 
     return json({ ok: true, action: 'added' });
   } catch (err) {
@@ -124,6 +125,10 @@ function formatSheetHeader(sheet) {
   for (var i = 0; i < widths.length; i++) {
     sheet.setColumnWidth(i + 1, widths[i]);
   }
+
+  // Ensure Phone Number column (Col 6) is formatted as Plain Text '@'
+  var maxRows = Math.max(sheet.getMaxRows() - 1, 1);
+  sheet.getRange(2, 6, maxRows, 1).setNumberFormat('@');
 }
 
 // Menu inside Google Sheets to easily re-apply header styling anytime
@@ -171,6 +176,16 @@ function formatRole(role) {
   if (r === 'brand') return 'Brand';
   if (r === 'agency') return 'Agency';
   return role.charAt(0).toUpperCase() + role.slice(1);
+}
+
+function formatPhone(body) {
+  var p = String(body.whatsapp || body.phone || body.phone_number || '').trim();
+  if (!p) return '';
+  // If already starts with apostrophe, keep it
+  if (p.charAt(0) === "'") return p;
+  // If starts with +, prepend apostrophe so Google Sheets treats it as plain text and not a formula
+  if (p.charAt(0) === '+') return "'" + p;
+  return p;
 }
 
 function json(obj) {
