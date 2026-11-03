@@ -385,6 +385,26 @@ a, button, [role="button"],
   transition: transform 0.15s ease, opacity 0.15s ease;
 }
 
+#asnd-mobile-menu {
+  display: none;
+  position: fixed;
+  top: 75px;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 18px 24px;
+  z-index: 999998;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+#asnd-mobile-menu.open {
+  display: flex !important;
+}
+
 #asnd-toast {
   position: fixed;
   bottom: 24px;
@@ -508,6 +528,10 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
     
     <!-- End of bodyEnd -->
 
+<div id="asnd-mobile-menu">
+  <a href="#contact" id="asnd-mobile-contact-btn" style="display:flex;align-items:center;height:44px;font-family:'Geist',sans-serif;font-size:17px;font-weight:500;color:rgb(16,24,40);text-decoration:none;cursor:pointer;">Contact</a>
+  <button id="asnd-mobile-apply-btn" style="display:flex;align-items:center;justify-content:center;height:48px;background:rgb(16,24,40);color:#fff;border:none;border-radius:12px;font-family:'Geist',sans-serif;font-size:16px;font-weight:500;cursor:pointer;width:100%;">Apply for Beta Access</button>
+</div>
 <div id="asnd-toast"></div>
 <script>
 (function() {
@@ -544,6 +568,19 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
         if (nameInput) nameInput.focus();
       }, 500);
     }
+  }
+
+  // Scroll to bottom of page where contact details are
+  function scrollToContact() {
+    const footers = Array.from(document.querySelectorAll('footer'));
+    for (const f of footers) {
+      if (f.offsetParent !== null && window.getComputedStyle(f).display !== 'none') {
+        const contactSection = f.querySelector('.framer-3dxwfd') || f;
+        contactSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+    }
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
   }
 
   const TAB_DATA = {
@@ -663,19 +700,19 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
       }
     });
 
-    // 3. Wire "Contact" button in Navbar
+    // 3. Wire "Contact" button in Navbar -> Scrolls to bottom of page where contact details are
     document.querySelectorAll('a, [data-framer-name="Header"]').forEach(el => {
       if (el.innerText && el.innerText.trim() === 'Contact') {
         el.style.cursor = 'pointer';
         el.onclick = (e) => {
           e.preventDefault();
           e.stopPropagation();
-          scrollToWaitlist();
+          scrollToContact();
         };
       }
     });
 
-    // 4. Wire "Reach out" in mock cards
+    // 4. Wire "Reach out" in mock cards -> Scrolls to waitlist form
     document.querySelectorAll('*').forEach(el => {
       if (el.innerText && el.innerText.trim() === 'Reach out') {
         const parent = el.closest('.framer-177upul, .framer-1uomhic') || el;
@@ -734,8 +771,39 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
       btn.style.cursor = 'pointer';
       btn.onclick = (e) => {
         e.preventDefault();
+        e.stopPropagation();
+        const menu = document.getElementById('asnd-mobile-menu');
+        if (menu) {
+          menu.classList.toggle('open');
+        }
+      };
+    });
+
+    const mobileContactBtn = document.getElementById('asnd-mobile-contact-btn');
+    if (mobileContactBtn) {
+      mobileContactBtn.onclick = (e) => {
+        e.preventDefault();
+        const menu = document.getElementById('asnd-mobile-menu');
+        if (menu) menu.classList.remove('open');
+        scrollToContact();
+      };
+    }
+
+    const mobileApplyBtn = document.getElementById('asnd-mobile-apply-btn');
+    if (mobileApplyBtn) {
+      mobileApplyBtn.onclick = (e) => {
+        e.preventDefault();
+        const menu = document.getElementById('asnd-mobile-menu');
+        if (menu) menu.classList.remove('open');
         scrollToWaitlist();
       };
+    }
+
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('asnd-mobile-menu');
+      if (menu && menu.classList.contains('open') && !menu.contains(e.target) && !e.target.closest('.framer-mkw4t7')) {
+        menu.classList.remove('open');
+      }
     });
 
     // 9. Input change / empty class management
