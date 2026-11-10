@@ -410,9 +410,9 @@ a, button, [role="button"],
 }
 
 .framer-1tsoixx, .framer-ucnpvs, .framer-1sk4ww3 {
-  transition: all 0.2s ease-in-out !important;
+  transition: none !important;
   cursor: pointer !important;
-  user-select: none;
+  user-select: none !important;
 }
 
 .framer-10lp6oo:hover, .framer-1tb2sk7:hover {
@@ -651,6 +651,17 @@ form[data-framer-form],
   z-index: 105 !important;
 }
 
+@media (max-width: 1024px) {
+  .framer-1jfpdkj {
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+  .framer-ak4x32, .framer-bsbv7y {
+    width: 100% !important;
+    flex: none !important;
+  }
+}
+
 .framer-1t60vvj {
   display: flex !important;
   flex-direction: row !important;
@@ -663,10 +674,14 @@ form[data-framer-form],
 
 .asnd-country-picker {
   position: relative !important;
+  inset: auto !important;
+  transform: none !important;
   display: flex !important;
   align-items: center !important;
   flex-shrink: 0 !important;
+  order: -1 !important;
   z-index: 120 !important;
+  margin-right: 4px !important;
 }
 
 .asnd-country-btn {
@@ -720,6 +735,8 @@ form[data-framer-form],
 
 .framer-1t60vvj input.framer-form-input {
   flex: 1 1 auto !important;
+  min-width: 0 !important;
+  order: 2 !important;
   padding-left: 8px !important;
   background: transparent !important;
   border: none !important;
@@ -730,8 +747,9 @@ form[data-framer-form],
   position: absolute !important;
   top: calc(100% + 6px) !important;
   left: 0 !important;
-  width: 300px !important;
-  max-width: calc(100vw - 32px) !important;
+  width: 280px !important;
+  max-width: calc(100vw - 48px) !important;
+  box-sizing: border-box !important;
   background: #ffffff !important;
   border: 1px solid #cbd5e1 !important;
   border-radius: 12px !important;
@@ -1227,13 +1245,16 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
     document.querySelectorAll('.framer-1t60vvj').forEach(wrapper => {
       let picker = wrapper.querySelector('.asnd-country-picker');
       const input = wrapper.querySelector('input:not(.asnd-country-search):not([data-no-form-field])');
+      const parentLabel = wrapper.closest('label');
 
       if (input) {
+        if (!input.id) input.id = 'asnd-phone-input';
+        if (parentLabel) parentLabel.setAttribute('for', input.id);
         if (input.getAttribute('name') !== 'Phone') input.setAttribute('name', 'Phone');
         if (input.getAttribute('type') !== 'tel') input.setAttribute('type', 'tel');
         input.removeAttribute('required');
         input.placeholder = 'xxxxxxxxxx';
-        input.style.paddingLeft = '88px';
+        input.style.paddingLeft = '8px';
       }
 
       if (picker) return;
@@ -1242,7 +1263,7 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
 
       picker = document.createElement('div');
       picker.className = 'asnd-country-picker';
-      picker.style.cssText = 'position: absolute; left: 6px; top: 50%; transform: translateY(-50%); z-index: 15; display: flex; align-items: center;';
+      picker.style.cssText = '';
 
       const trigger = document.createElement('button');
       trigger.type = 'button';
@@ -1307,13 +1328,29 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
 
       searchInput.onclick = (e) => e.stopPropagation();
       searchInput.oninput = (e) => renderCountryList(list, e.target.value, onSelectCountry);
+      searchInput.onkeydown = (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          e.stopPropagation();
+          const firstItem = list.querySelector('.asnd-country-item');
+          if (firstItem) firstItem.click();
+        } else if (e.key === 'Escape') {
+          e.preventDefault();
+          closeDropdown();
+          trigger.focus();
+        }
+      };
       dropdown.onclick = (e) => e.stopPropagation();
 
       picker.appendChild(trigger);
       picker.appendChild(divider);
       picker.appendChild(dropdown);
 
-      wrapper.appendChild(picker);
+      if (input) {
+        wrapper.insertBefore(picker, input);
+      } else {
+        wrapper.appendChild(picker);
+      }
     });
   }
 
@@ -1635,6 +1672,8 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
       // Input validation events
       const inputs = form.querySelectorAll('input:not([data-no-form-field])');
       inputs.forEach(input => {
+        if (input.dataset.asndValidationWired) return;
+        input.dataset.asndValidationWired = 'true';
         input.addEventListener('input', () => {
           if (input.value && input.value.trim().length > 0) {
             input.classList.remove('framer-form-input-empty');
@@ -1793,6 +1832,20 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
   setTimeout(initInteractions, 300);
   setTimeout(initInteractions, 800);
   setTimeout(initInteractions, 1500);
+
+  // Responsive breakpoint remount observer
+  let remountDebounce;
+  const remountObserver = new MutationObserver(() => {
+    clearTimeout(remountDebounce);
+    remountDebounce = setTimeout(() => {
+      const needsPicker = Array.from(document.querySelectorAll('.framer-1t60vvj')).some(w => !w.querySelector('.asnd-country-picker'));
+      const needsRole = Array.from(document.querySelectorAll('.framer-u1amz0')).some(w => !w.querySelector('.asnd-role-select'));
+      if (needsPicker || needsRole) {
+        initInteractions();
+      }
+    }, 60);
+  });
+  remountObserver.observe(document.body, { childList: true, subtree: true });
 })();
 
 </script>
