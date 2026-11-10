@@ -387,7 +387,8 @@
 a, button, [role="button"],
 .framer-1tsoixx, .framer-ucnpvs, .framer-1sk4ww3,
 .framer-10lp6oo, .framer-19bqd4t,
-.framer-1tb2sk7, .framer-10rw1x1,
+.framer-1tb2sk7, .framer-10rw1x1, .framer-37v8ac, .framer-1w25zb9, .framer-1uomhic,
+[data-framer-name="Arm 1 → Start a Project"],
 .framer-xdblt6-container,
 .framer-y53fje, [data-framer-name="Menu Item List"],
 .framer-tyhk2s, .framer-1hwc71l,
@@ -1713,7 +1714,7 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
     });
 
     // 2. Wire Header & Hero "Apply for Beta Access" buttons
-    document.querySelectorAll('.framer-xdblt6-container, .framer-10rw1x1').forEach(btn => {
+    document.querySelectorAll('.framer-xdblt6-container, .framer-10rw1x1, .framer-1tb2sk7, .framer-37v8ac, [data-framer-name="Arm 1 → Start a Project"], [data-framer-name="Contents"], [data-framer-name="Link - Tertiary"]').forEach(btn => {
       btn.style.cursor = 'pointer';
       btn.onclick = (e) => {
         e.preventDefault();
@@ -1796,10 +1797,12 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
     // 2. Header / Hero "Apply for Beta Access"
     if (!e.target.closest('form') && !e.target.closest('button[type="submit"]') && !e.target.closest('.framer-dsc6k6-container')) {
       const headerCta = e.target.closest('.framer-xdblt6-container, .framer-9ub5sk');
-      const heroCta = e.target.closest('.framer-10rw1x1, [data-framer-name="Link - Tertiary"]');
-      if (headerCta || heroCta) {
+      const heroCta = e.target.closest('.framer-10rw1x1, .framer-1tb2sk7, .framer-37v8ac, .framer-1w25zb9, .framer-1uomhic, [data-framer-name="Arm 1 → Start a Project"], [data-framer-name="Link - Tertiary"]');
+      const isApplyText = e.target.textContent && e.target.textContent.trim().includes('Apply for Beta Access');
+      if (headerCta || heroCta || isApplyText) {
         e.preventDefault();
         e.stopPropagation();
+        e.stopImmediatePropagation();
         scrollToWaitlist();
         return;
       }
