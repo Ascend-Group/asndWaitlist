@@ -18,6 +18,7 @@ export default defineConfig({
         legalTerms: path.resolve(__dirname, 'legal/terms-conditions/index.html'),
         legalPrivacy: path.resolve(__dirname, 'legal/privacy-policy/index.html'),
         terms: path.resolve(__dirname, 'terms-and-condition/index.html'),
+        termsPlural: path.resolve(__dirname, 'terms-and-conditions/index.html'),
         privacy: path.resolve(__dirname, 'privacy-policy/index.html')
       }
     }
@@ -28,7 +29,7 @@ export default defineConfig({
       configureServer(server) {
         server.middlewares.use((req, res, next) => {
           const url = (req.url || '').split('?')[0];
-          if (url === '/terms-and-condition' || url === '/terms-and-condition/') {
+          if (url === '/terms-and-condition' || url === '/terms-and-condition/' || url === '/terms-and-conditions' || url === '/terms-and-conditions/') {
             req.url = '/terms-and-condition/index.html';
           } else if (url === '/privacy-policy' || url === '/privacy-policy/') {
             req.url = '/privacy-policy/index.html';
