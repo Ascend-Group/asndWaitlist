@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite'
-import fs from 'fs'
 import path from 'path'
 
 // Relative base keeps the bundle working at a domain root and under the
@@ -19,7 +18,10 @@ export default defineConfig({
         legalPrivacy: path.resolve(__dirname, 'legal/privacy-policy/index.html'),
         terms: path.resolve(__dirname, 'terms-and-condition/index.html'),
         termsPlural: path.resolve(__dirname, 'terms-and-conditions/index.html'),
-        privacy: path.resolve(__dirname, 'privacy-policy/index.html')
+        termsShort: path.resolve(__dirname, 'terms/index.html'),
+        privacy: path.resolve(__dirname, 'privacy-policy/index.html'),
+        privacyShort: path.resolve(__dirname, 'privacy/index.html'),
+        notFound: path.resolve(__dirname, '404.html')
       }
     }
   },
@@ -29,9 +31,9 @@ export default defineConfig({
       configureServer(server) {
         server.middlewares.use((req, res, next) => {
           const url = (req.url || '').split('?')[0];
-          if (url === '/terms-and-condition' || url === '/terms-and-condition/' || url === '/terms-and-conditions' || url === '/terms-and-conditions/') {
+          if (url === '/terms-and-condition' || url === '/terms-and-condition/' || url === '/terms-and-conditions' || url === '/terms-and-conditions/' || url === '/terms' || url === '/terms/') {
             req.url = '/terms-and-condition/index.html';
-          } else if (url === '/privacy-policy' || url === '/privacy-policy/') {
+          } else if (url === '/privacy-policy' || url === '/privacy-policy/' || url === '/privacy' || url === '/privacy/') {
             req.url = '/privacy-policy/index.html';
           } else if (url === '/legal/terms-conditions' || url === '/legal/terms-conditions/') {
             req.url = '/terms-and-condition/index.html';

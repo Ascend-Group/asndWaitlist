@@ -3,6 +3,15 @@
 <!-- Published Oct 30, 2026, 11:57 AM UTC -->
 <html lang="en" data-redirect-timezone="1" dir="ltr">
 <head>
+  <!-- Trailing-slash & Subpath Normalizer -->
+  <script>
+  (function() {
+    var p = window.location.pathname;
+    if (p.endsWith('/terms-and-condition')) {
+      window.location.replace(p + '/' + window.location.search + window.location.hash);
+    }
+  })();
+  </script>
 <script>
 (function() {
   const TITLE = "Terms & Conditions | ASND";
@@ -344,7 +353,16 @@
 @font-face { font-family: "Google Sans Placeholder"; src: local("Arial"); ascent-override: 95.12%; descent-override: 28.16%; line-gap-override: 0.00%; size-adjust: 101.55% }
 @font-face { font-family: "Instrument Sans Placeholder"; src: local("Arial"); ascent-override: 93.97%; descent-override: 24.22%; line-gap-override: 0.00%; size-adjust: 103.22% }
 @font-face { font-family: "Geist Placeholder"; src: local("Arial"); ascent-override: 94.56%; descent-override: 27.76%; line-gap-override: 0.00%; size-adjust: 106.28% }
-@font-face { font-family: "Inter Placeholder"; src: local("Arial"); ascent-override: 89.79%; descent-override: 22.36%; line-gap-override: 0.00%; size-adjust: 107.89% }</style>
+@font-face { font-family: "Inter Placeholder"; src: local("Arial"); ascent-override: 89.79%; descent-override: 22.36%; line-gap-override: 0.00%; size-adjust: 107.89% }
+footer a {
+  display: inline-flex !important;
+  cursor: pointer !important;
+}
+footer a .framer-ljh6pd {
+  position: relative !important;
+}
+
+</style>
 	<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
 	
@@ -533,14 +551,21 @@ html.lenis body {
 
 <script>
 (function() {
+  function getAppBaseUrl() {
+    const p = window.location.pathname;
+    if (p.startsWith('/asndWaitlist')) {
+      return window.location.origin + '/asndWaitlist/';
+    }
+    return window.location.origin + '/';
+  }
   function getHomeUrl() {
-    return window.location.pathname.includes('/legal/') ? '../../' : '../';
+    return getAppBaseUrl();
   }
   function getTermsUrl() {
-    return window.location.pathname.includes('/legal/') ? '../../terms-and-condition/' : '../terms-and-condition/';
+    return getAppBaseUrl() + 'terms-and-condition/';
   }
   function getPrivacyUrl() {
-    return window.location.pathname.includes('/legal/') ? '../../privacy-policy/' : '../privacy-policy/';
+    return getAppBaseUrl() + 'privacy-policy/';
   }
 
   function initLegalInteractions() {
@@ -624,12 +649,16 @@ html.lenis body {
       if (text === 'Terms & Conditions' || text.toLowerCase().includes('terms')) {
         e.preventDefault();
         e.stopPropagation();
+      e.stopImmediatePropagation();
         window.location.href = getTermsUrl();
+      return false;
         return;
       } else if (text === 'Privacy Policy' || text.toLowerCase().includes('privacy')) {
         e.preventDefault();
         e.stopPropagation();
+      e.stopImmediatePropagation();
         window.location.href = getPrivacyUrl();
+      return false;
         return;
       } else if (text.includes('585-414-2745') || text.includes('+1 585')) {
         e.preventDefault();

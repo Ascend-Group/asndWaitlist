@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Redirecting | ASND</title>
+  <script>
+    (function() {
+      var p = window.location.pathname.toLowerCase();
+      var base = window.location.origin;
+      if (p.includes('/asndwaitlist')) {
+        base += '/asndWaitlist/';
+      } else {
+        base += '/';
+      }
+      if (p.includes('term')) {
+        window.location.replace(base + 'terms-and-condition/');
+      } else if (p.includes('privac')) {
+        window.location.replace(base + 'privacy-policy/');
+      } else {
+        window.location.replace(base);
+      }
+    })();
+  </script>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f4f1; color: #101828; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
+  <div style="text-align: center;">
+    <h2>Redirecting to ASND...</h2>
+    <p><a href="./" style="color: #0099ff;">Click here if you are not redirected automatically.</a></p>
+  </div>
+</body>
+</html>

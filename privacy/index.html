@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting | ASND</title>
+  <script>
+    (function() {
+      var p = window.location.pathname;
+      var base = p.includes('/asndWaitlist') ? window.location.origin + '/asndWaitlist/' : window.location.origin + '/';
+      window.location.replace(base + 'privacy-policy/');
+    })();
+  </script>
+  <meta http-equiv="refresh" content="0; url=../privacy-policy/">
+</head>
+<body>
+  <p>Redirecting to <a href="../privacy-policy/">ASND</a>...</p>
+</body>
+</html>

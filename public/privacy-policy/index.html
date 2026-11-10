@@ -8,6 +8,16 @@
   <meta name="description" content="Read ASND's Privacy Policy to understand how we collect, use, and protect your personal information when using our platform and waitlist.">
   <link rel="canonical" href="https://ascend-group.github.io/asndWaitlist/privacy-policy/">
 
+  <!-- Trailing-slash & Subpath Normalizer -->
+  <script>
+  (function() {
+    var p = window.location.pathname;
+    if (p.endsWith('/privacy-policy')) {
+      window.location.replace(p + '/' + window.location.search + window.location.hash);
+    }
+  })();
+  </script>
+
   <!-- Option A ASND Favicons -->
   <link rel="icon" type="image/svg+xml" href="../favicon.svg?v=3">
   <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png?v=3">
@@ -337,6 +347,13 @@
 
   <!-- Production Responsive & Interaction Overrides -->
   <style>
+  footer a {
+    display: inline-flex !important;
+    cursor: pointer !important;
+  }
+  footer a .framer-ljh6pd {
+    position: relative !important;
+  }
   
 /* Option A & ASND Brand Styling */
 html body {
@@ -680,14 +697,21 @@ html.lenis body {
 
   <!-- Client Interaction Handlers -->
   <script>
+  function getAppBaseUrl() {
+    const p = window.location.pathname;
+    if (p.startsWith('/asndWaitlist')) {
+      return window.location.origin + '/asndWaitlist/';
+    }
+    return window.location.origin + '/';
+  }
   function getHomeUrl() {
-    return window.location.pathname.includes('/legal/') ? '../../' : '../';
+    return getAppBaseUrl();
   }
   function getTermsUrl() {
-    return window.location.pathname.includes('/legal/') ? '../../terms-and-condition/' : '../terms-and-condition/';
+    return getAppBaseUrl() + 'terms-and-condition/';
   }
   function getPrivacyUrl() {
-    return window.location.pathname.includes('/legal/') ? '../../privacy-policy/' : '../privacy-policy/';
+    return getAppBaseUrl() + 'privacy-policy/';
   }
 
   function initPrivacyInteractions() {
@@ -745,7 +769,17 @@ html.lenis body {
       };
     });
 
-    // 5. Close mobile menu on click outside
+    // 5. Update footer link hrefs
+    document.querySelectorAll('footer a, #asnd-mobile-menu a').forEach(a => {
+      const text = (a.innerText || a.textContent || '').trim();
+      if (text.includes('Terms')) {
+        a.href = getTermsUrl();
+      } else if (text.includes('Privacy')) {
+        a.href = getPrivacyUrl();
+      }
+    });
+
+    // 6. Close mobile menu on click outside
     document.addEventListener('click', (e) => {
       const menu = document.getElementById('asnd-mobile-menu');
       if (menu && menu.classList.contains('open') && !menu.contains(e.target) && !e.target.closest('.framer-mkw4t7')) {
@@ -761,16 +795,18 @@ html.lenis body {
     if (linkedin) {
       e.preventDefault();
       e.stopPropagation();
+      e.stopImmediatePropagation();
       window.open('https://www.linkedin.com/company/asnd-creative-discovery/', '_blank', 'noopener,noreferrer');
-      return;
+      return false;
     }
 
     const instagram = e.target.closest('[data-framer-name="Instagram"], .framer-1hwc71l');
     if (instagram) {
       e.preventDefault();
       e.stopPropagation();
+      e.stopImmediatePropagation();
       window.open('https://www.instagram.com/asnd_ai/', '_blank', 'noopener,noreferrer');
-      return;
+      return false;
     }
 
     // Footer contact links
@@ -778,16 +814,18 @@ html.lenis body {
     if (phone) {
       e.preventDefault();
       e.stopPropagation();
+      e.stopImmediatePropagation();
       window.location.href = 'tel:+15854142745';
-      return;
+      return false;
     }
 
     const email = e.target.closest('a[href*="mailto:"]') || (e.target.closest('a') && e.target.closest('a').textContent.includes('asnddev@gmail.com'));
     if (email) {
       e.preventDefault();
       e.stopPropagation();
+      e.stopImmediatePropagation();
       window.location.href = 'mailto:asnddev@gmail.com';
-      return;
+      return false;
     }
 
     // Legal links
@@ -797,13 +835,15 @@ html.lenis body {
       if (text.includes('Terms')) {
         e.preventDefault();
         e.stopPropagation();
+        e.stopImmediatePropagation();
         window.location.href = getTermsUrl();
-        return;
+        return false;
       } else if (text.includes('Privacy')) {
         e.preventDefault();
         e.stopPropagation();
+        e.stopImmediatePropagation();
         window.location.href = getPrivacyUrl();
-        return;
+        return false;
       }
     }
   }, true);
