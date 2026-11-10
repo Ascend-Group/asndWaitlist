@@ -969,8 +969,7 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
   <button id="asnd-mobile-apply-btn" class="asnd-mobile-primary-btn">Apply for Beta Access</button>
 </div>
 <div id="asnd-toast" class="asnd-toast" role="status" aria-live="polite"></div>
-<script src="/framer/countries.js"></script>
-
+<script src="./framer/countries.js"></script>
 <script>
 (function() {
   function showToast(msg) {
@@ -984,208 +983,147 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
   function getVisibleWaitlistForm() {
     const forms = Array.from(document.querySelectorAll('form[data-framer-form]'));
     for (const f of forms) {
-      if (f.offsetParent !== null && window.getComputedStyle(f).display !== 'none') {
+      if (f.offsetWidth > 0 && f.offsetHeight > 0 && window.getComputedStyle(f).display !== 'none') {
         return f;
       }
     }
     return forms[0] || document.getElementById('waitlist');
   }
 
-
-  const PINNED_COUNTRIES = [
+  const FALLBACK_PINNED = [
     { name: "United States of America", code: "+1", flag: "🇺🇸", iso: "US" },
     { name: "India", code: "+91", flag: "🇮🇳", iso: "IN" },
   ];
 
-  const OTHER_COUNTRIES = [
-    { name: "Afghanistan", code: "+93", flag: "🇦🇫", iso: "AF" },
-    { name: "Albania", code: "+355", flag: "🇦🇱", iso: "AL" },
-    { name: "Algeria", code: "+213", flag: "🇩🇿", iso: "DZ" },
-    { name: "Andorra", code: "+376", flag: "🇦🇩", iso: "AD" },
-    { name: "Angola", code: "+244", flag: "🇦🇴", iso: "AO" },
-    { name: "Antigua and Barbuda", code: "+1", flag: "🇦🇬", iso: "AG" },
-    { name: "Argentina", code: "+54", flag: "🇦🇷", iso: "AR" },
-    { name: "Armenia", code: "+374", flag: "🇦🇲", iso: "AM" },
-    { name: "Australia", code: "+61", flag: "🇦🇺", iso: "AU" },
-    { name: "Austria", code: "+43", flag: "🇦🇹", iso: "AT" },
-    { name: "Azerbaijan", code: "+994", flag: "🇦🇿", iso: "AZ" },
-    { name: "Bahamas", code: "+1", flag: "🇧🇸", iso: "BS" },
-    { name: "Bahrain", code: "+973", flag: "🇧🇭", iso: "BH" },
-    { name: "Bangladesh", code: "+880", flag: "🇧🇩", iso: "BD" },
-    { name: "Barbados", code: "+1", flag: "🇧🇧", iso: "BB" },
-    { name: "Belarus", code: "+375", flag: "🇧🇾", iso: "BY" },
-    { name: "Belgium", code: "+32", flag: "🇧🇪", iso: "BE" },
-    { name: "Belize", code: "+501", flag: "🇧🇿", iso: "BZ" },
-    { name: "Benin", code: "+229", flag: "🇧🇯", iso: "BJ" },
-    { name: "Bhutan", code: "+975", flag: "🇧🇹", iso: "BT" },
-    { name: "Bolivia", code: "+591", flag: "🇧🇴", iso: "BO" },
-    { name: "Bosnia and Herzegovina", code: "+387", flag: "🇧🇦", iso: "BA" },
-    { name: "Botswana", code: "+267", flag: "🇧🇼", iso: "BW" },
-    { name: "Brazil", code: "+55", flag: "🇧🇷", iso: "BR" },
-    { name: "Brunei", code: "+673", flag: "🇧🇳", iso: "BN" },
-    { name: "Bulgaria", code: "+359", flag: "🇧🇬", iso: "BG" },
-    { name: "Burkina Faso", code: "+226", flag: "🇧🇫", iso: "BF" },
-    { name: "Burundi", code: "+257", flag: "🇧🇮", iso: "BI" },
-    { name: "Cambodia", code: "+855", flag: "🇰🇭", iso: "KH" },
-    { name: "Cameroon", code: "+237", flag: "🇨🇲", iso: "CM" },
+  const FALLBACK_OTHER = [
+    { name: "United Kingdom", code: "+44", flag: "🇬🇧", iso: "GB" },
     { name: "Canada", code: "+1", flag: "🇨🇦", iso: "CA" },
-    { name: "Cape Verde", code: "+238", flag: "🇨🇻", iso: "CV" },
-    { name: "Chile", code: "+56", flag: "🇨🇱", iso: "CL" },
-    { name: "China", code: "+86", flag: "🇨🇳", iso: "CN" },
-    { name: "Colombia", code: "+57", flag: "🇨🇴", iso: "CO" },
-    { name: "Costa Rica", code: "+506", flag: "🇨🇷", iso: "CR" },
-    { name: "Croatia", code: "+385", flag: "🇭🇷", iso: "HR" },
-    { name: "Cuba", code: "+53", flag: "🇨🇺", iso: "CU" },
-    { name: "Cyprus", code: "+357", flag: "🇨🇾", iso: "CY" },
-    { name: "Czech Republic", code: "+420", flag: "🇨🇿", iso: "CZ" },
-    { name: "Denmark", code: "+45", flag: "🇩🇰", iso: "DK" },
-    { name: "Dominican Republic", code: "+1", flag: "🇩🇴", iso: "DO" },
-    { name: "Ecuador", code: "+593", flag: "🇪🇨", iso: "EC" },
-    { name: "Egypt", code: "+20", flag: "🇪🇬", iso: "EG" },
-    { name: "El Salvador", code: "+503", flag: "🇸🇻", iso: "SV" },
-    { name: "Estonia", code: "+372", flag: "🇪🇪", iso: "EE" },
-    { name: "Ethiopia", code: "+251", flag: "🇪🇹", iso: "ET" },
-    { name: "Fiji", code: "+679", flag: "🇫🇯", iso: "FJ" },
-    { name: "Finland", code: "+358", flag: "🇫🇮", iso: "FI" },
-    { name: "France", code: "+33", flag: "🇫🇷", iso: "FR" },
-    { name: "Georgia", code: "+995", flag: "🇬🇪", iso: "GE" },
+    { name: "Australia", code: "+61", flag: "🇦🇺", iso: "AU" },
     { name: "Germany", code: "+49", flag: "🇩🇪", iso: "DE" },
-    { name: "Ghana", code: "+233", flag: "🇬🇭", iso: "GH" },
-    { name: "Greece", code: "+30", flag: "🇬🇷", iso: "GR" },
-    { name: "Guatemala", code: "+502", flag: "🇬🇹", iso: "GT" },
-    { name: "Honduras", code: "+504", flag: "🇭🇳", iso: "HN" },
-    { name: "Hong Kong", code: "+852", flag: "🇭🇰", iso: "HK" },
-    { name: "Hungary", code: "+36", flag: "🇭🇺", iso: "HU" },
-    { name: "Iceland", code: "+354", flag: "🇮🇸", iso: "IS" },
-    { name: "Indonesia", code: "+62", flag: "🇮🇩", iso: "ID" },
-    { name: "Ireland", code: "+353", flag: "🇮🇪", iso: "IE" },
-    { name: "Israel", code: "+972", flag: "🇮🇱", iso: "IL" },
-    { name: "Italy", code: "+39", flag: "🇮🇹", iso: "IT" },
-    { name: "Jamaica", code: "+1", flag: "🇯🇲", iso: "JM" },
-    { name: "Japan", code: "+81", flag: "🇯🇵", iso: "JP" },
-    { name: "Jordan", code: "+962", flag: "🇯🇴", iso: "JO" },
-    { name: "Kazakhstan", code: "+7", flag: "🇰🇿", iso: "KZ" },
-    { name: "Kenya", code: "+254", flag: "🇰🇪", iso: "KE" },
-    { name: "Kuwait", code: "+965", flag: "🇰🇼", iso: "KW" },
-    { name: "Latvia", code: "+371", flag: "🇱🇻", iso: "LV" },
-    { name: "Lebanon", code: "+961", flag: "🇱🇧", iso: "LB" },
-    { name: "Lithuania", code: "+370", flag: "🇱🇹", iso: "LT" },
-    { name: "Luxembourg", code: "+352", flag: "🇱🇺", iso: "LU" },
-    { name: "Malaysia", code: "+60", flag: "🇲🇾", iso: "MY" },
-    { name: "Maldives", code: "+960", flag: "🇲🇻", iso: "MV" },
-    { name: "Malta", code: "+356", flag: "🇲🇹", iso: "MT" },
-    { name: "Mauritius", code: "+230", flag: "🇲🇺", iso: "MU" },
-    { name: "Mexico", code: "+52", flag: "🇲🇽", iso: "MX" },
-    { name: "Monaco", code: "+377", flag: "🇲🇨", iso: "MC" },
-    { name: "Morocco", code: "+212", flag: "🇲🇦", iso: "MA" },
-    { name: "Nepal", code: "+977", flag: "🇳🇵", iso: "NP" },
-    { name: "Netherlands", code: "+31", flag: "🇳🇱", iso: "NL" },
-    { name: "New Zealand", code: "+64", flag: "🇳🇿", iso: "NZ" },
-    { name: "Nigeria", code: "+234", flag: "🇳🇬", iso: "NG" },
-    { name: "Norway", code: "+47", flag: "🇳🇴", iso: "NO" },
-    { name: "Oman", code: "+968", flag: "🇴🇲", iso: "OM" },
-    { name: "Pakistan", code: "+92", flag: "🇵🇰", iso: "PK" },
-    { name: "Panama", code: "+507", flag: "🇵🇦", iso: "PA" },
-    { name: "Peru", code: "+51", flag: "🇵🇪", iso: "PE" },
-    { name: "Philippines", code: "+63", flag: "🇵🇭", iso: "PH" },
-    { name: "Poland", code: "+48", flag: "🇵🇱", iso: "PL" },
-    { name: "Portugal", code: "+351", flag: "🇵🇹", iso: "PT" },
-    { name: "Qatar", code: "+974", flag: "🇶🇦", iso: "QA" },
-    { name: "Romania", code: "+40", flag: "🇷🇴", iso: "RO" },
-    { name: "Russia", code: "+7", flag: "🇷🇺", iso: "RU" },
-    { name: "Saudi Arabia", code: "+966", flag: "🇸🇦", iso: "SA" },
-    { name: "Serbia", code: "+381", flag: "🇷🇸", iso: "RS" },
+    { name: "France", code: "+33", flag: "🇫🇷", iso: "FR" },
+    { name: "United Arab Emirates", code: "+971", flag: "🇦🇪", iso: "AE" },
     { name: "Singapore", code: "+65", flag: "🇸🇬", iso: "SG" },
-    { name: "Slovakia", code: "+421", flag: "🇸🇰", iso: "SK" },
-    { name: "Slovenia", code: "+386", flag: "🇸🇮", iso: "SI" },
-    { name: "South Africa", code: "+27", flag: "🇿🇦", iso: "ZA" },
-    { name: "South Korea", code: "+82", flag: "🇰🇷", iso: "KR" },
+    { name: "Netherlands", code: "+31", flag: "🇳🇱", iso: "NL" },
     { name: "Spain", code: "+34", flag: "🇪🇸", iso: "ES" },
-    { name: "Sri Lanka", code: "+94", flag: "🇱🇰", iso: "LK" },
+    { name: "Italy", code: "+39", flag: "🇮🇹", iso: "IT" },
+    { name: "Brazil", code: "+55", flag: "🇧🇷", iso: "BR" },
+    { name: "Japan", code: "+81", flag: "🇯🇵", iso: "JP" },
+    { name: "South Korea", code: "+82", flag: "🇰🇷", iso: "KR" },
+    { name: "Mexico", code: "+52", flag: "🇲🇽", iso: "MX" },
+    { name: "Indonesia", code: "+62", flag: "🇮🇩", iso: "ID" },
+    { name: "Saudi Arabia", code: "+966", flag: "🇸🇦", iso: "SA" },
+    { name: "South Africa", code: "+27", flag: "🇿🇦", iso: "ZA" },
     { name: "Sweden", code: "+46", flag: "🇸🇪", iso: "SE" },
     { name: "Switzerland", code: "+41", flag: "🇨🇭", iso: "CH" },
-    { name: "Taiwan", code: "+886", flag: "🇹🇼", iso: "TW" },
-    { name: "Tanzania", code: "+255", flag: "🇹🇿", iso: "TZ" },
-    { name: "Thailand", code: "+66", flag: "🇹🇭", iso: "TH" },
-    { name: "Trinidad and Tobago", code: "+1", flag: "🇹🇹", iso: "TT" },
-    { name: "Tunisia", code: "+216", flag: "🇹🇳", iso: "TN" },
-    { name: "Turkey", code: "+90", flag: "🇹🇷", iso: "TR" },
-    { name: "Uganda", code: "+256", flag: "🇺🇬", iso: "UG" },
-    { name: "Ukraine", code: "+380", flag: "🇺🇦", iso: "UA" },
-    { name: "United Arab Emirates", code: "+971", flag: "🇦🇪", iso: "AE" },
-    { name: "United Kingdom", code: "+44", flag: "🇬🇧", iso: "GB" },
-    { name: "Uruguay", code: "+598", flag: "UY", iso: "UY" },
-    { name: "Uzbekistan", code: "+998", flag: "🇺🇿", iso: "UZ" },
-    { name: "Venezuela", code: "+58", flag: "🇻🇪", iso: "VE" },
+    { name: "Poland", code: "+48", flag: "🇵🇱", iso: "PL" },
+    { name: "Portugal", code: "+351", flag: "🇵🇹", iso: "PT" },
+    { name: "New Zealand", code: "+64", flag: "🇳🇿", iso: "NZ" },
+    { name: "Ireland", code: "+353", flag: "🇮🇪", iso: "IE" },
+    { name: "Hong Kong", code: "+852", flag: "🇭🇰", iso: "HK" },
+    { name: "Malaysia", code: "+60", flag: "🇲🇾", iso: "MY" },
+    { name: "Philippines", code: "+63", flag: "🇵🇭", iso: "PH" },
     { name: "Vietnam", code: "+84", flag: "🇻🇳", iso: "VN" },
-    { name: "Zimbabwe", code: "+263", flag: "🇿🇼", iso: "ZW" },
+    { name: "Thailand", code: "+66", flag: "🇹🇭", iso: "TH" },
+    { name: "Turkey", code: "+90", flag: "🇹🇷", iso: "TR" },
+    { name: "Argentina", code: "+54", flag: "🇦🇷", iso: "AR" },
+    { name: "Chile", code: "+56", flag: "🇨🇱", iso: "CL" },
+    { name: "Colombia", code: "+57", flag: "🇨🇴", iso: "CO" },
+    { name: "Denmark", code: "+45", flag: "🇩🇰", iso: "DK" },
+    { name: "Norway", code: "+47", flag: "🇳🇴", iso: "NO" },
+    { name: "Finland", code: "+358", flag: "🇫🇮", iso: "FI" },
+    { name: "Austria", code: "+43", flag: "🇦🇹", iso: "AT" },
+    { name: "Belgium", code: "+32", flag: "🇧🇪", iso: "BE" },
+    { name: "Greece", code: "+30", flag: "🇬🇷", iso: "GR" },
+    { name: "Czech Republic", code: "+420", flag: "🇨🇿", iso: "CZ" },
+    { name: "Israel", code: "+972", flag: "🇮🇱", iso: "IL" },
+    { name: "Egypt", code: "+20", flag: "🇪🇬", iso: "EG" },
+    { name: "Nigeria", code: "+234", flag: "🇳🇬", iso: "NG" },
+    { name: "Kenya", code: "+254", flag: "🇰🇪", iso: "KE" },
+    { name: "Pakistan", code: "+92", flag: "🇵🇰", iso: "PK" },
+    { name: "Bangladesh", code: "+880", flag: "🇧🇩", iso: "BD" },
+    { name: "Kuwait", code: "+965", flag: "🇰🇼", iso: "KW" },
+    { name: "Qatar", code: "+974", flag: "🇶🇦", iso: "QA" },
+    { name: "Bahrain", code: "+973", flag: "🇧🇭", iso: "BH" }
   ];
 
-  let currentSelectedCountry = PINNED_COUNTRIES[0];
+  let currentSelectedCountry = FALLBACK_PINNED[0];
+
+  function getCountryData() {
+    const pinned = (typeof window !== 'undefined' && window.PINNED_COUNTRIES) || FALLBACK_PINNED;
+    const other = (typeof window !== 'undefined' && window.OTHER_COUNTRIES) || FALLBACK_OTHER;
+    return { pinned, other };
+  }
 
   function renderCountryList(listEl, filterText, onSelect) {
     listEl.innerHTML = '';
-    const search = (filterText || '').trim().toLowerCase();
+    const q = (filterText || '').trim().toLowerCase();
+    const { pinned, other } = getCountryData();
 
-    const pinned = PINNED_COUNTRIES.filter(c =>
-      !search || c.name.toLowerCase().includes(search) || c.code.includes(search)
-    );
+    function match(c) {
+      if (!q) return true;
+      return c.name.toLowerCase().includes(q) ||
+        c.code.replace('+', '').includes(q.replace('+', '')) ||
+        (c.iso && c.iso.toLowerCase() === q);
+    }
 
-    const others = OTHER_COUNTRIES.filter(c =>
-      !search || c.name.toLowerCase().includes(search) || c.code.includes(search)
-    );
+    const filteredPinned = pinned.filter(match);
+    const filteredOther = other.filter(match);
 
-    if (pinned.length === 0 && others.length === 0) {
-      const emptyMsg = document.createElement('div');
-      emptyMsg.className = 'asnd-country-empty';
-      emptyMsg.textContent = 'No matching countries';
-      listEl.appendChild(emptyMsg);
+    if (filteredPinned.length === 0 && filteredOther.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'asnd-country-empty';
+      empty.textContent = 'No countries found';
+      listEl.appendChild(empty);
       return;
     }
 
-    if (pinned.length > 0) {
-      if (!search) {
-        const title = document.createElement('div');
-        title.className = 'asnd-country-section-title';
-        title.textContent = 'Pinned';
-        listEl.appendChild(title);
-      }
-      pinned.forEach(c => {
+    if (filteredPinned.length > 0) {
+      const pinnedHeader = document.createElement('div');
+      pinnedHeader.className = 'asnd-country-group-label';
+      pinnedHeader.textContent = 'Popular';
+      listEl.appendChild(pinnedHeader);
+      filteredPinned.forEach(c => {
         listEl.appendChild(createCountryOption(c, onSelect));
       });
     }
 
-    if (others.length > 0) {
-      if (!search) {
-        const title = document.createElement('div');
-        title.className = 'asnd-country-section-title';
-        title.textContent = 'All Countries';
-        listEl.appendChild(title);
-      }
-      others.forEach(c => {
+    if (filteredOther.length > 0) {
+      const allHeader = document.createElement('div');
+      allHeader.className = 'asnd-country-group-label';
+      allHeader.textContent = 'All Countries';
+      listEl.appendChild(allHeader);
+      filteredOther.forEach(c => {
         listEl.appendChild(createCountryOption(c, onSelect));
       });
     }
   }
 
   function createCountryOption(c, onSelect) {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'asnd-country-item';
-    if (currentSelectedCountry && currentSelectedCountry.iso === c.iso && currentSelectedCountry.code === c.code) {
-      btn.classList.add('active');
-    }
-    btn.innerHTML = '<span class="asnd-flag" aria-hidden="true">' + c.flag + '</span><span class="asnd-country-name">' + c.name + '</span><span class="asnd-country-dial">' + c.code + '</span>';
-    btn.onmousedown = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-    };
-    btn.onclick = (e) => {
-      e.preventDefault();
+    const item = document.createElement('div');
+    item.className = 'asnd-country-item';
+    item.setAttribute('role', 'option');
+
+    const flagSpan = document.createElement('span');
+    flagSpan.className = 'asnd-country-item-flag';
+    flagSpan.textContent = c.flag;
+
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'asnd-country-item-name';
+    nameSpan.textContent = c.name;
+
+    const codeSpan = document.createElement('span');
+    codeSpan.className = 'asnd-country-item-code';
+    codeSpan.textContent = c.code;
+
+    item.appendChild(flagSpan);
+    item.appendChild(nameSpan);
+    item.appendChild(codeSpan);
+
+    item.onclick = (e) => {
       e.stopPropagation();
       onSelect(c);
     };
-    return btn;
+    return item;
   }
 
   function ensurePhoneCountryPicker() {
@@ -1193,28 +1131,21 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
       let picker = wrapper.querySelector('.asnd-country-picker');
       const input = wrapper.querySelector('input:not(.asnd-country-search):not([data-no-form-field])');
 
-      // Prevent parent label from capturing mouse clicks
-      const parentLabel = wrapper.closest('label');
-      if (parentLabel && !parentLabel.dataset.asndGuarded) {
-        parentLabel.dataset.asndGuarded = 'true';
-        parentLabel.addEventListener('click', (e) => {
-          if (e.target.closest('.asnd-country-picker')) {
-            e.preventDefault();
-          }
-        });
-      }
-
       if (input) {
         if (input.getAttribute('name') !== 'Phone') input.setAttribute('name', 'Phone');
         if (input.getAttribute('type') !== 'tel') input.setAttribute('type', 'tel');
         input.removeAttribute('required');
-        input.placeholder = "xxxxxxxxxx";
+        input.placeholder = 'xxxxxxxxxx';
+        input.style.paddingLeft = '88px';
       }
 
       if (picker) return;
 
+      wrapper.style.position = 'relative';
+
       picker = document.createElement('div');
       picker.className = 'asnd-country-picker';
+      picker.style.cssText = 'position: absolute; left: 6px; top: 50%; transform: translateY(-50%); z-index: 15; display: flex; align-items: center;';
 
       const trigger = document.createElement('button');
       trigger.type = 'button';
@@ -1237,7 +1168,6 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
       searchInput.placeholder = 'Search country or code...';
       searchInput.setAttribute('data-no-form-field', 'true');
       searchInput.setAttribute('autocomplete', 'off');
-      searchInput.removeAttribute('name');
       searchWrap.appendChild(searchInput);
 
       const list = document.createElement('div');
@@ -1253,9 +1183,7 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
         dropdown.style.display = 'flex';
         searchInput.value = '';
         renderCountryList(list, '', onSelectCountry);
-        setTimeout(() => {
-          searchInput.focus();
-        }, 30);
+        setTimeout(() => searchInput.focus(), 30);
       }
 
       function closeDropdown() {
@@ -1274,50 +1202,21 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
         if (input) input.focus();
       }
 
-      trigger.onmousedown = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-      };
-
       trigger.onclick = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        if (dropdown.style.display === 'flex' || dropdown.style.display === 'block') {
-          closeDropdown();
-        } else {
-          openDropdown();
-        }
+        dropdown.style.display === 'none' ? openDropdown() : closeDropdown();
       };
 
-      searchInput.onmousedown = (e) => {
-        e.stopPropagation();
-      };
-
-      searchInput.onclick = (e) => {
-        e.stopPropagation();
-      };
-
-      searchInput.oninput = (e) => {
-        renderCountryList(list, e.target.value, onSelectCountry);
-      };
-
-      dropdown.onmousedown = (e) => {
-        e.stopPropagation();
-      };
-
-      dropdown.onclick = (e) => {
-        e.stopPropagation();
-      };
+      searchInput.onclick = (e) => e.stopPropagation();
+      searchInput.oninput = (e) => renderCountryList(list, e.target.value, onSelectCountry);
+      dropdown.onclick = (e) => e.stopPropagation();
 
       picker.appendChild(trigger);
       picker.appendChild(divider);
       picker.appendChild(dropdown);
 
-      if (input) {
-        wrapper.insertBefore(picker, input);
-      } else {
-        wrapper.appendChild(picker);
-      }
+      wrapper.appendChild(picker);
     });
   }
 
@@ -1329,76 +1228,44 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
     }
   });
 
-  // Ensures Role dropdown is in place and inputs have correct names/types
-    // Ensures Footer Legal & Contact Links are accurate and cannot be hijacked by hydration
-  function ensureFooterLinks() {
-    document.querySelectorAll('footer a, [data-framer-name="Footer"] a, .framer-1ne9inf').forEach(a => {
-      const text = (a.innerText || '').trim();
-      if (text === 'Terms & Conditions' || text.toLowerCase().includes('terms')) {
-        a.href = '/terms-and-condition';
-        a.removeAttribute('target');
-        a.removeAttribute('rel');
-      } else if (text === 'Privacy Policy' || text.toLowerCase().includes('privacy')) {
-        a.href = '/privacy-policy';
-        a.removeAttribute('target');
-        a.removeAttribute('rel');
-      } else if (text.includes('585-414-2745') || text.includes('+1 585')) {
-        a.href = 'tel:+15854142745';
-        a.removeAttribute('target');
-        a.removeAttribute('rel');
-      } else if (text.includes('asnddev@gmail.com') || text.includes('@')) {
-        a.href = 'mailto:asnddev@gmail.com';
-        a.removeAttribute('target');
-        a.removeAttribute('rel');
-      }
-    });
-  }
-
-  // Intercept contact links & footer legal navigation with capture
-  document.addEventListener('click', (e) => {
-    const target = e.target.closest('a');
-    if (!target) return;
-    const text = (target.innerText || '').trim();
-    if (text === 'Terms & Conditions' || text.toLowerCase().includes('terms')) {
-      e.preventDefault();
-      e.stopPropagation();
-      window.location.href = '/terms-and-condition';
-    } else if (text === 'Privacy Policy' || text.toLowerCase().includes('privacy')) {
-      e.preventDefault();
-      e.stopPropagation();
-      window.location.href = '/privacy-policy';
-    } else if (text.includes('585-414-2745') || text.includes('+1 585')) {
-      e.preventDefault();
-      e.stopPropagation();
-      window.location.href = 'tel:+15854142745';
-    } else if (text.includes('asnddev@gmail.com') || text.includes('@')) {
-      e.preventDefault();
-      e.stopPropagation();
-      window.location.href = 'mailto:asnddev@gmail.com';
-    }
-  }, true);
-
   function ensureRoleDropdown() {
     document.querySelectorAll('.framer-u1amz0').forEach(wrapper => {
-      let select = wrapper.querySelector('select');
+      let select = wrapper.querySelector('select.asnd-role-select');
+      const input = wrapper.querySelector('input');
+
       if (!select) {
-        const existingInput = wrapper.querySelector('input');
-        const curVal = existingInput ? existingInput.value : 'Creator';
-        wrapper.innerHTML = '<select name="Role" required class="framer-form-input asnd-role-select"><option value="Creator">Creator</option><option value="Brand">Brand</option><option value="Agency">Agency</option></select>';
-        select = wrapper.querySelector('select');
-        if (select && ['Creator', 'Brand', 'Agency'].includes(curVal)) {
+        wrapper.style.position = 'relative';
+        select = document.createElement('select');
+        select.className = 'framer-form-input asnd-role-select';
+        select.innerHTML = '<option value="Creator">Creator</option><option value="Brand">Brand</option><option value="Agency">Agency</option>';
+        select.style.cssText = 'position: absolute; inset: 0; width: 100%; height: 100%; z-index: 10; cursor: pointer;';
+
+        const curVal = input ? (input.value || 'Creator') : 'Creator';
+        if (['Creator', 'Brand', 'Agency'].includes(curVal)) {
           select.value = curVal;
         }
+
+        if (input) {
+          input.value = select.value;
+          input.setAttribute('name', 'Role');
+          input.style.opacity = '0';
+          input.style.pointerEvents = 'none';
+          input.setAttribute('tabindex', '-1');
+        }
+
+        select.addEventListener('change', () => {
+          if (input) {
+            input.value = select.value;
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        });
+
+        wrapper.appendChild(select);
       }
     });
 
     ensurePhoneCountryPicker();
-    document.querySelectorAll('.framer-1t60vvj input:not(.asnd-country-search):not([data-no-form-field])').forEach(input => {
-      if (input.getAttribute('name') !== 'Phone') input.setAttribute('name', 'Phone');
-      if (input.getAttribute('type') !== 'tel') input.setAttribute('type', 'tel');
-      input.removeAttribute('required');
-      input.placeholder = 'xxxxxxxxxx';
-    });
 
     document.querySelectorAll('.framer-a2kii1 input').forEach(input => {
       if (input.getAttribute('name') !== 'Link') input.setAttribute('name', 'Link');
@@ -1413,7 +1280,7 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', block: 'center' });
       if (role) {
-        document.querySelectorAll('select[name="Role"]').forEach(select => {
+        document.querySelectorAll('select.asnd-role-select').forEach(select => {
           select.value = role;
           select.dispatchEvent(new Event('change', { bubbles: true }));
         });
@@ -1434,13 +1301,11 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
     }
   }
 
-  // Scroll to bottom of page where contact details are
   function scrollToContact() {
     const footers = Array.from(document.querySelectorAll('footer'));
     for (const f of footers) {
-      if (f.offsetParent !== null && window.getComputedStyle(f).display !== 'none') {
-        const contactSection = f.querySelector('.framer-3dxwfd') || f;
-        contactSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (f.offsetWidth > 0 && f.offsetHeight > 0 && window.getComputedStyle(f).display !== 'none') {
+        f.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return;
       }
     }
@@ -1457,129 +1322,8 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
     }
   }
 
-  const TAB_DATA = {
-    creators: {
-      title: 'Creators',
-      subtitle: 'Find exclusive opportunities fast',
-      bullets: [
-        'Showcase your work',
-        'Access vetted briefs',
-        'Connect beyond your network'
-      ],
-      buttonText: 'Join as a Creator',
-      role: 'Creator',
-      image: './images/of41UhrJLeIHfsgGe6MGFEMjos.jpeg?width=735&height=976'
-    },
-    brands: {
-      title: 'Brands',
-      subtitle: 'Find the right creative fit fast',
-      bullets: [
-        'Discover vetted talent',
-        'Post clear briefs',
-        'Connect with relevant creators'
-      ],
-      buttonText: 'Join as a Brand',
-      role: 'Brand',
-      image: './images/XxcJWjRULVnTLQGzDcSEeYZg.jpeg?width=736&height=1308'
-    },
-    agencies: {
-      title: 'Agencies',
-      subtitle: 'Grow your roster fast',
-      bullets: [
-        'Showcase your work',
-        'Access vetted briefs',
-        'Connect beyond your network'
-      ],
-      buttonText: 'Join as an Agency',
-      role: 'Agency',
-      image: './images/psK7MjyJzqWtWGuqwBcwmqjR3Q.jpeg?width=735&height=489'
-    }
-  };
-
-  let currentTab = 'creators';
-
-  function switchTab(tabKey) {
-    if (!TAB_DATA[tabKey]) return;
-    currentTab = tabKey;
-    const data = TAB_DATA[tabKey];
-
-    document.querySelectorAll('.framer-1qcy7qz').forEach(ctrl => {
-      const btn1 = ctrl.querySelector('.framer-1tsoixx');
-      const btn2 = ctrl.querySelector('.framer-ucnpvs');
-      const btn3 = ctrl.querySelector('.framer-1sk4ww3');
-
-      const activeBg = 'var(--token-7c2fc69c-e3c6-450b-a9b8-a28da6eafe0b, rgb(1, 47, 79))';
-      const activeColor = 'rgb(255, 255, 255)';
-      const inactiveBg = 'rgba(255, 255, 255, 0)';
-      const inactiveColor = 'var(--token-473ce6ae-3822-49a9-8515-04fe56639a2b, rgb(152, 152, 163))';
-
-      [
-        { el: btn1, key: 'creators' },
-        { el: btn2, key: 'brands' },
-        { el: btn3, key: 'agencies' }
-      ].forEach(({ el, key }) => {
-        if (!el) return;
-        const isActive = (key === tabKey);
-        el.style.backgroundColor = isActive ? activeBg : inactiveBg;
-        el.style.borderRadius = isActive ? '12px' : '20px';
-        const p = el.querySelector('p');
-        if (p) {
-          p.style.setProperty('--framer-text-color', isActive ? activeColor : inactiveColor);
-          p.style.color = isActive ? activeColor : inactiveColor;
-        }
-      });
-    });
-
-    document.querySelectorAll('.framer-Fmrby, .framer-wcoigc, .framer-jYxcQ').forEach(card => {
-      const headingP = card.querySelector('.framer-8e60d2 p');
-      if (headingP) headingP.textContent = data.title;
-
-      const subheadP = card.querySelector('.framer-138oxcw p');
-      if (subheadP) subheadP.textContent = data.subtitle;
-
-      const bulletsUl = card.querySelector('.framer-12qk65o ul');
-      if (bulletsUl) {
-        bulletsUl.innerHTML = data.bullets.map(b => '<li data-preset-tag="p" class="framer-text"><p class="framer-text">' + b + '</p></li>').join('');
-      }
-      card.querySelectorAll('.framer-12qk65o > p').forEach(p => {
-        if (!p.querySelector('li') && !p.textContent.trim()) {
-          p.remove();
-        }
-      });
-
-      const ctaP = card.querySelector('.framer-10lp6oo p');
-      if (ctaP) ctaP.textContent = data.buttonText;
-
-      const img = card.querySelector('.framer-rlryml img');
-      if (img) {
-        img.src = data.image;
-        img.removeAttribute('srcset');
-        img.style.objectFit = 'cover';
-        img.style.objectPosition = 'center';
-        img.style.width = '100%';
-        img.style.height = '100%';
-      }
-    });
-
-    wireTabCtaButtons();
-  }
-
-  // Field type resolution by container class first (immune to duplicate attribute names)
-  function getFieldType(input) {
-    if (!input || input.classList.contains('asnd-country-search') || input.dataset.noFormField) return null;
-    if (input.closest('.framer-1qjvrz2') || input.name === 'Name') return 'Name';
-    if (input.closest('.framer-sft9e4') || input.name === 'Email') return 'Email';
-    if (input.closest('.framer-u1amz0') || input.name === 'Role') return 'Role';
-    if (input.closest('.framer-1t60vvj') || input.name === 'Phone') return 'Phone';
-    if (input.closest('.framer-a2kii1') || input.name === 'Link') return 'Link';
-    if (input.closest('.framer-1ahm0k1') || input.name === 'Text Area') return 'Message';
-    return input.name;
-  }
-
-  // Field validation logic (strictly isolates Email validation to the Email field)
   function validateField(input, isBlur) {
-    if (!input) return true;
-    const fieldType = getFieldType(input);
+    if (!input || input.classList.contains('asnd-country-search') || input.dataset.noFormField) return true;
     const rawVal = input.value || '';
     const val = rawVal.trim();
     const wrapper = input.closest('.framer-form-input-wrapper') || input.parentElement;
@@ -1604,30 +1348,20 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
       return true;
     }
 
-    // NAME: single word or multi word allowed (e.g. "Jane" or "Jane Doe")
-    if (fieldType === 'Name') {
-      if (!val) {
-        return (isBlur || hasError) ? setError('Please enter your name.') : false;
-      }
-      if (!/[a-zA-Z\u00C0-\u024F]/.test(val)) {
-        return setError('Please enter a valid name (letters preferred).');
-      }
+    const fieldName = input.getAttribute('name');
+
+    if (fieldName === 'Name') {
+      if (!val) return (isBlur || hasError) ? setError('Please enter your name.') : false;
+      if (!/[a-zA-ZÀ-ɏ]/.test(val)) return setError('Please enter a valid name (letters preferred).');
       return clearError();
     }
 
-    // EMAIL: only validates the actual email field!
-    if (fieldType === 'Email') {
-      if (!val) {
-        return (isBlur || hasError) ? setError('Please enter your email address.') : false;
-      }
-      if (/\s/.test(rawVal)) {
-        return setError('Email cannot contain spaces.');
-      }
+    if (fieldName === 'Email') {
+      if (!val) return (isBlur || hasError) ? setError('Please enter your email address.') : false;
+      if (/\s/.test(rawVal)) return setError('Email cannot contain spaces.');
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
       if (isBlur || hasError) {
-        if (!emailRegex.test(val)) {
-          return setError('Please enter a valid email address (e.g. jane@brand.com).');
-        }
+        if (!emailRegex.test(val)) return setError('Please enter a valid email address (e.g. jane@brand.com).');
       } else {
         if (val.includes('@') && val.split('@')[1].includes('.') && !emailRegex.test(val)) {
           return setError('Please enter a valid email address (e.g. jane@brand.com).');
@@ -1636,69 +1370,187 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
       return clearError();
     }
 
-    // ROLE: Dropdown selection (Creator, Brand, Agency) - always valid!
-    if (fieldType === 'Role') {
-      return clearError();
-    }
-
-    // PHONE (optional - if entered, must be xxxxxxxxxx or xxx-xxx-xxxx)
-    if (fieldType === 'Phone') {
+    if (fieldName === 'Phone') {
       if (!val) return clearError();
-
-      // Accept both 10 digits (xxxxxxxxxx) or 3-3-4 dashed format (xxx-xxx-xxxx)
       const phoneRegex = /^(\d{10}|\d{3}-\d{3}-\d{4})$/;
-
       if (isBlur || hasError) {
-        if (!phoneRegex.test(val)) {
-          return setError('Please enter phone number as 10 digits (xxxxxxxxxx).');
-        }
+        if (!phoneRegex.test(val)) return setError('Please enter phone number as 10 digits (xxxxxxxxxx).');
       } else {
-        if (/[^0-9-]/.test(rawVal)) {
-          return setError('Phone number can only contain digits and hyphens (-).');
-        }
+        if (/[^0-9-]/.test(rawVal)) return setError('Phone number can only contain digits and hyphens (-).');
       }
       return clearError();
     }
 
-    // LINK (optional)
-    if (fieldType === 'Link') {
+    if (fieldName === 'Link') {
       if (!val) return clearError();
-      if (/\s/.test(rawVal)) {
-        return setError('Link or handle cannot contain spaces.');
-      }
+      if (/\s/.test(rawVal)) return setError('Link or handle cannot contain spaces.');
       return clearError();
     }
 
     return clearError();
   }
 
-  function wireTabCtaButtons() {
-    document.querySelectorAll('*').forEach(el => {
-      if (el.innerText && /^Join as\b/i.test(el.innerText.trim())) {
-        const btn = el.closest('.framer-19bqd4t') || el.closest('.framer-10lp6oo') || el;
-        btn.style.cursor = 'pointer';
-        btn.onclick = (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          const role = TAB_DATA[currentTab]?.role || 'Creator';
-          scrollToWaitlist(role);
-        };
+  const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxW04H83vWwRjZggv1d7y5dZFPCpEP-v5vM-9P6S5NL76KCYE2WDqbS6PjNZaE3INWTIw/exec';
+  const TOKEN = 'asnd-waitlist';
+
+  async function handleFormSubmit(form) {
+    ensureRoleDropdown();
+
+    const nameInput = form.querySelector('.framer-1qjvrz2 input, input[name="Name"]');
+    const emailInput = form.querySelector('.framer-sft9e4 input, input[name="Email"]');
+    const roleSelect = form.querySelector('select.asnd-role-select, select[name="Role"]');
+    const phoneInput = form.querySelector('.framer-1t60vvj input:not(.asnd-country-search):not([data-no-form-field])');
+    const linkInput = form.querySelector('.framer-a2kii1 input, input[name="Link"]');
+    const messageInput = form.querySelector('.framer-1ahm0k1 textarea, textarea[name="Text Area"]');
+    const submitBtn = form.querySelector('button[type="submit"], .framer-dsc6k6-container button');
+
+    const isNameValid = validateField(nameInput, true);
+    const isEmailValid = validateField(emailInput, true);
+    const isPhoneValid = validateField(phoneInput, true);
+    const isLinkValid = validateField(linkInput, true);
+
+    if (!isNameValid || !isEmailValid || !isPhoneValid || !isLinkValid) {
+      showToast('Please check the highlighted fields.');
+      return;
+    }
+
+    const fullName = (nameInput?.value || '').trim();
+    const email = (emailInput?.value || '').trim();
+    const role = roleSelect?.value || 'Creator';
+    const phone = (phoneInput?.value || '').trim();
+    const link = (linkInput?.value || '').trim();
+    const message = (messageInput?.value || '').trim();
+
+    const nameParts = fullName.split(/\s+/);
+    const firstName = nameParts[0] || '';
+    const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+
+    const btnTextEl = submitBtn?.querySelector('p') || submitBtn;
+    const originalText = 'Apply for Beta Access';
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.classList.remove('asnd-btn-success', 'asnd-btn-error');
+      submitBtn.classList.add('asnd-btn-submitting');
+      if (btnTextEl) btnTextEl.textContent = 'Submitting...';
+    }
+
+    const countryCode = (currentSelectedCountry && currentSelectedCountry.code)
+      ? (currentSelectedCountry.code.startsWith('+') ? currentSelectedCountry.code : ('+' + currentSelectedCountry.code))
+      : '+1';
+
+    const formattedPhone = phone ? (countryCode + ' ' + phone) : '';
+
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          role: role,
+          first_name: firstName,
+          last_name: lastName,
+          email: email,
+          organisation: '',
+          designation: '',
+          whatsapp: formattedPhone ? ("'" + formattedPhone) : '',
+          phone: formattedPhone ? ("'" + formattedPhone) : '',
+          phone_number: formattedPhone,
+          instagram: link,
+          message: message,
+          token: TOKEN,
+          source: 'Website Waitlist',
+          submitted_at: new Date().toISOString()
+        })
+      });
+
+      const data = await res.json().catch(() => ({ ok: true }));
+
+      if (res.ok || data.ok) {
+        if (submitBtn) {
+          submitBtn.classList.remove('asnd-btn-submitting');
+          submitBtn.classList.add('asnd-btn-success');
+          if (btnTextEl) btnTextEl.textContent = "Success! You're on the list ✓";
+        }
+        showToast('Application received! Thank you for joining the ASND waitlist.');
+
+        setTimeout(() => {
+          form.reset();
+          if (phoneInput) phoneInput.value = '';
+          form.querySelectorAll('.asnd-input-error').forEach(w => w.classList.remove('asnd-input-error'));
+          form.querySelectorAll('.asnd-error-hint').forEach(h => h.remove());
+          if (roleSelect) roleSelect.value = 'Creator';
+        }, 1500);
+
+        setTimeout(() => {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('asnd-btn-success');
+            if (btnTextEl) btnTextEl.textContent = originalText;
+          }
+        }, 4500);
+      } else {
+        throw new Error(data.error || 'Submission could not be completed.');
       }
-    });
+    } catch (err) {
+      console.error(err);
+      if (submitBtn) {
+        submitBtn.classList.remove('asnd-btn-submitting');
+        submitBtn.classList.add('asnd-btn-error');
+        if (btnTextEl) btnTextEl.textContent = 'Submission failed — please try again';
+      }
+      showToast('Could not submit: ' + (err.message || 'Please check connection'));
+
+      setTimeout(() => {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.classList.remove('asnd-btn-error');
+          if (btnTextEl) btnTextEl.textContent = originalText;
+        }
+      }, 3500);
+    }
   }
 
   function initInteractions() {
-    ensureFooterLinks();
     ensureRoleDropdown();
 
-    // 1. Ensure forms have hydration attribute & proper IDs
+    // 1. Ensure forms have id and prevent native Framer api.framer.com submission
     document.querySelectorAll('form[data-framer-form]').forEach(form => {
       form.id = 'waitlist';
       form.setAttribute('data-framer-form-hydrated', 'true');
       form.removeAttribute('data-framer-form-pending-submit');
+
+      form.onsubmit = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleFormSubmit(form);
+      };
+
+      const submitBtn = form.querySelector('button[type="submit"], .framer-dsc6k6-container button');
+      if (submitBtn && !submitBtn.dataset.asndWired) {
+        submitBtn.dataset.asndWired = 'true';
+        submitBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          handleFormSubmit(form);
+        }, true);
+      }
+
+      // Input validation events
+      const inputs = form.querySelectorAll('input:not([data-no-form-field])');
+      inputs.forEach(input => {
+        input.addEventListener('input', () => {
+          if (input.value && input.value.trim().length > 0) {
+            input.classList.remove('framer-form-input-empty');
+          } else {
+            input.classList.add('framer-form-input-empty');
+          }
+          validateField(input, false);
+        });
+        input.addEventListener('blur', () => validateField(input, true));
+      });
     });
 
-    // 2. Wire Header & Hero "Apply for Beta Access" buttons (strictly outside any form)
+    // 2. Wire Header & Hero "Apply for Beta Access" buttons
     document.querySelectorAll('.framer-xdblt6-container, .framer-10rw1x1').forEach(btn => {
       btn.style.cursor = 'pointer';
       btn.onclick = (e) => {
@@ -1708,19 +1560,7 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
       };
     });
 
-    document.querySelectorAll('a, div').forEach(el => {
-      if (!el.closest('form') && !el.closest('button') && el.innerText && el.innerText.trim() === 'Apply for Beta Access') {
-        const btn = el.closest('.framer-xdblt6-container, .framer-10rw1x1, [data-framer-name="Link - Tertiary"]') || el;
-        btn.style.cursor = 'pointer';
-        btn.onclick = (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          scrollToWaitlist();
-        };
-      }
-    });
-
-    // 3. Wire "Contact" button in Header -> Entire pill container, wrapper, link, and text are clickable
+    // 3. Wire "Contact" button in Header
     document.querySelectorAll('.framer-y53fje, [data-framer-name="Menu Item List"], .framer-daztx2-container').forEach(btn => {
       btn.style.cursor = 'pointer';
       btn.onclick = (e) => {
@@ -1730,137 +1570,29 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
       };
     });
 
-    document.querySelectorAll('a, [data-framer-name="Header"]').forEach(el => {
-      if (el.innerText && el.innerText.trim() === 'Contact') {
-        const fullBtn = el.closest('.framer-y53fje, [data-framer-name="Menu Item List"]') || el;
-        fullBtn.style.cursor = 'pointer';
-        fullBtn.onclick = (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          scrollToContact();
-        };
-      }
-    });
-
-    // 4. Wire LinkedIn and Instagram icons
-    document.querySelectorAll('[data-framer-name="Linkedin"], .framer-tyhk2s').forEach(el => {
-      el.style.cursor = 'pointer';
-      el.onclick = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        window.open('https://www.linkedin.com/company/asnd-creative-discovery/', '_blank', 'noopener,noreferrer');
-      };
-    });
-
-    document.querySelectorAll('[data-framer-name="Instagram"], .framer-1hwc71l').forEach(el => {
-      el.style.cursor = 'pointer';
-      el.onclick = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        window.open('https://www.instagram.com/join.asnd/', '_blank', 'noopener,noreferrer');
-      };
-    });
-
-    // 5. Wire "Reach out" in mock cards -> Scrolls to waitlist form
-    document.querySelectorAll('*').forEach(el => {
-      if (el.innerText && el.innerText.trim() === 'Reach out') {
-        const parent = el.closest('.framer-177upul, .framer-1uomhic') || el;
-        parent.style.cursor = 'pointer';
-        parent.onclick = (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          scrollToWaitlist();
-        };
-      }
-    });
-
-    // 6. Wire top Logo to scroll to top
-    document.querySelectorAll('a[data-framer-name="Header"], a[href="./"]').forEach(el => {
-      if (el.querySelector('img[alt="Logo"]')) {
-        el.onclick = (e) => {
-          e.preventDefault();
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-      }
-    });
-
-    // 7. Audience Segmented Tabs click listeners
-    document.querySelectorAll('.framer-1qcy7qz').forEach(ctrl => {
-      const btn1 = ctrl.querySelector('.framer-1tsoixx');
-      const btn2 = ctrl.querySelector('.framer-ucnpvs');
-      const btn3 = ctrl.querySelector('.framer-1sk4ww3');
-
-      if (btn1) {
-        btn1.style.cursor = 'pointer';
-        btn1.onclick = (e) => { e.preventDefault(); switchTab('creators'); };
-      }
-      if (btn2) {
-        btn2.style.cursor = 'pointer';
-        btn2.onclick = (e) => { e.preventDefault(); switchTab('brands'); };
-      }
-      if (btn3) {
-        btn3.style.cursor = 'pointer';
-        btn3.onclick = (e) => { e.preventDefault(); switchTab('agencies'); };
-      }
-    });
-
-    // 8. Wire Tab CTA button
-    wireTabCtaButtons();
-    switchTab('creators');
-
-    // 9. Mobile header Quick Apply button & hamburger toggle
-    document.querySelectorAll('.framer-PnajA.framer-v-y80eqy .framer-mvk0d7').forEach(container => {
-      if (!container.querySelector('.asnd-mobile-header-apply')) {
-        const quickApply = document.createElement('a');
-        quickApply.className = 'asnd-mobile-header-apply';
-        quickApply.href = '#waitlist';
-        quickApply.textContent = 'Apply for Beta';
-        quickApply.onclick = (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          const menu = document.getElementById('asnd-mobile-menu');
-          if (menu) menu.classList.remove('open');
-          scrollToWaitlist();
-        };
-        const icon = container.querySelector('.framer-mkw4t7');
-        if (icon) {
-          container.insertBefore(quickApply, icon);
-        } else {
-          container.appendChild(quickApply);
-        }
-      }
-    });
-
+    // 4. Mobile hamburger toggle
     document.querySelectorAll('.framer-mkw4t7').forEach(btn => {
       btn.style.cursor = 'pointer';
       btn.onclick = (e) => {
         e.preventDefault();
         e.stopPropagation();
         const menu = document.getElementById('asnd-mobile-menu');
-        if (menu) {
-          menu.classList.toggle('open');
-        }
+        if (menu) menu.classList.toggle('open');
       };
     });
 
-    // Wire all mobile menu nav links
+    // Wire mobile menu nav links
     document.querySelectorAll('.asnd-mobile-nav-item').forEach(item => {
       item.onclick = (e) => {
         e.preventDefault();
         const menu = document.getElementById('asnd-mobile-menu');
         if (menu) menu.classList.remove('open');
         const action = item.getAttribute('data-action');
-        if (action === 'top') {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else if (action === 'problem') {
-          scrollToSectionByKeyword('The Problem');
-        } else if (action === 'designed-for') {
-          scrollToSectionByKeyword('Designed for');
-        } else if (action === 'waitlist') {
-          scrollToWaitlist();
-        } else if (action === 'contact') {
-          scrollToContact();
-        }
+        if (action === 'top') window.scrollTo({ top: 0, behavior: 'smooth' });
+        else if (action === 'problem') scrollToSectionByKeyword('The Problem');
+        else if (action === 'designed-for') scrollToSectionByKeyword('Designed for');
+        else if (action === 'waitlist') scrollToWaitlist();
+        else if (action === 'contact') scrollToContact();
       };
     });
 
@@ -1880,215 +1612,92 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
         menu.classList.remove('open');
       }
     });
-
-    // 10. Real-time validation and empty state management
-    document.querySelectorAll('form[data-framer-form]').forEach(form => {
-      const inputs = form.querySelectorAll('input, select, textarea');
-      inputs.forEach(input => {
-        input.addEventListener('input', () => {
-          if (input.value && input.value.trim().length > 0) {
-            input.classList.remove('framer-form-input-empty');
-          } else {
-            input.classList.add('framer-form-input-empty');
-          }
-          validateField(input, false);
-        });
-
-        input.addEventListener('blur', () => {
-          validateField(input, true);
-        });
-      });
-    });
-
-    // 11. Form submission handling with state transitions
-    const ENDPOINT = "https://script.google.com/macros/s/AKfycbxW04H83vWwRjZggv1d7y5dZFPCpEP-v5vM-9P6S5NL76KCYE2WDqbS6PjNZaE3INWTIw/exec";
-    const TOKEN = "asnd-waitlist";
-
-    document.querySelectorAll('form[data-framer-form]').forEach(form => {
-      const submitBtn = form.querySelector('button[type="submit"], .framer-dsc6k6-container button');
-      if (submitBtn) {
-        submitBtn.style.cursor = 'pointer';
-        submitBtn.onclick = (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          if (form.requestSubmit) {
-            form.requestSubmit();
-          } else {
-            form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-          }
-        };
-      }
-
-      form.onsubmit = async (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        ensureRoleDropdown();
-
-        const nameInput = form.querySelector('.framer-1qjvrz2 input, input[name="Name"]');
-        const emailInput = form.querySelector('.framer-sft9e4 input, input[name="Email"]');
-        const roleSelect = form.querySelector('.framer-u1amz0 select, select[name="Role"]');
-
-        const formPhoneInputs = Array.from(form.querySelectorAll('.framer-1t60vvj input:not(.asnd-country-search):not([data-no-form-field]), input[name="Phone"]:not(.asnd-country-search):not([data-no-form-field])'));
-        const allDocPhoneInputs = Array.from(document.querySelectorAll('.framer-1t60vvj input:not(.asnd-country-search):not([data-no-form-field]), input[name="Phone"]:not(.asnd-country-search):not([data-no-form-field])'));
-        const phoneInput = formPhoneInputs.find(inp => inp.value && inp.value.trim().length > 0)
-          || allDocPhoneInputs.find(inp => inp.value && inp.value.trim().length > 0)
-          || formPhoneInputs[0]
-          || allDocPhoneInputs[0];
-
-        const linkInput = form.querySelector('.framer-a2kii1 input, input[name="Link"]');
-        const messageInput = form.querySelector('.framer-1ahm0k1 textarea, textarea[name="Text Area"]');
-        const submitBtn = form.querySelector('button[type="submit"]');
-
-        const isNameValid = validateField(nameInput, true);
-        const isEmailValid = validateField(emailInput, true);
-        const isPhoneValid = phoneInput ? validateField(phoneInput, true) : true;
-        const isLinkValid = linkInput ? validateField(linkInput, true) : true;
-
-        if (!isNameValid || !isEmailValid || !isPhoneValid || !isLinkValid) {
-          if (!isNameValid && nameInput) nameInput.focus();
-          else if (!isEmailValid && emailInput) emailInput.focus();
-          else if (!isPhoneValid && phoneInput) phoneInput.focus();
-          else if (!isLinkValid && linkInput) linkInput.focus();
-          return;
-        }
-
-        const name = (nameInput?.value || "").trim();
-        const email = (emailInput?.value || "").trim();
-        const role = (roleSelect?.value || "Creator").trim();
-        const phone = (phoneInput?.value || "").trim();
-        const link = (linkInput?.value || "").trim();
-        const message = (messageInput?.value || "").trim();
-
-        // Single first name or full name support
-        const nameParts = name.split(/\s+/);
-        const firstName = nameParts[0] || name;
-        const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
-
-        const btnTextEl = submitBtn?.querySelector("p") || submitBtn;
-        const originalText = "Apply for Beta Access";
-
-        if (submitBtn) {
-          submitBtn.disabled = true;
-          submitBtn.classList.remove('asnd-btn-success', 'asnd-btn-error');
-          submitBtn.classList.add('asnd-btn-submitting');
-          if (btnTextEl) btnTextEl.textContent = "Submitting...";
-        }
-
-        const countryCode = (currentSelectedCountry && currentSelectedCountry.code)
-          ? (currentSelectedCountry.code.startsWith('+') ? currentSelectedCountry.code : ('+' + currentSelectedCountry.code))
-          : '+1';
-
-        const formattedPhone = phone ? (countryCode + ' ' + phone) : '';
-
-        try {
-          const res = await fetch(ENDPOINT, {
-            method: "POST",
-            headers: { "Content-Type": "text/plain;charset=utf-8" },
-            body: JSON.stringify({
-              role: role,
-              first_name: firstName,
-              last_name: lastName,
-              email: email,
-              organisation: "",
-              designation: "",
-              whatsapp: formattedPhone ? ("'" + formattedPhone) : "",
-              phone: formattedPhone ? ("'" + formattedPhone) : "",
-              phone_number: formattedPhone,
-              instagram: link,
-              message: message,
-              token: TOKEN,
-              source: "Website Waitlist",
-              submitted_at: new Date().toISOString()
-            })
-          });
-
-          const data = await res.json().catch(() => ({ ok: true }));
-
-          if (res.ok || data.ok) {
-            if (submitBtn) {
-              submitBtn.classList.remove('asnd-btn-submitting');
-              submitBtn.classList.add('asnd-btn-success');
-              if (btnTextEl) btnTextEl.textContent = "Success! You're on the list ✓";
-            }
-            showToast("Application received! Thank you for joining the ASND waitlist.");
-
-            setTimeout(() => {
-              form.reset();
-              allDocPhoneInputs.forEach(p => { p.value = ''; });
-              form.querySelectorAll('.asnd-input-error').forEach(w => w.classList.remove('asnd-input-error'));
-              form.querySelectorAll('.asnd-error-hint').forEach(h => h.remove());
-              form.querySelectorAll('select[name="Role"]').forEach(s => s.value = 'Creator');
-            }, 1500);
-
-            setTimeout(() => {
-              if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.classList.remove('asnd-btn-success');
-                if (btnTextEl) btnTextEl.textContent = originalText;
-              }
-            }, 4500);
-          } else {
-            throw new Error(data.error || 'Submission could not be completed.');
-          }
-        } catch (err) {
-          console.error(err);
-          if (submitBtn) {
-            submitBtn.classList.remove('asnd-btn-submitting');
-            submitBtn.classList.add('asnd-btn-error');
-            if (btnTextEl) btnTextEl.textContent = "Submission failed — please try again";
-          }
-          showToast("Could not submit: " + (err.message || "Please check connection"));
-
-          setTimeout(() => {
-            if (submitBtn) {
-              submitBtn.disabled = false;
-              submitBtn.classList.remove('asnd-btn-error');
-              if (btnTextEl) btnTextEl.textContent = originalText;
-            }
-          }, 3500);
-        }
-      };
-    });
   }
 
-  // Initialize form enhancers AFTER Framer hydration to prevent React error #405/#418 mismatches
-  let initialized = false;
-  function safeInit() {
-    initInteractions();
-    if (!initialized) {
-      initialized = true;
-      try {
-        const form = document.querySelector('form[data-framer-form]');
-        if (form) {
-          const obs = new MutationObserver(() => {
-            ensureRoleDropdown();
-            ensurePhoneCountryPicker();
-          });
-          obs.observe(form, { childList: true });
-        }
-      } catch(e) {}
-    }
-  }
-
-  // Global click delegation failsafe for Header & Hero "Apply for Beta Access"
+  // Delegated global click interceptor (capture phase)
   document.addEventListener('click', (e) => {
-    if (e.target.closest('form') || e.target.closest('button[type="submit"]') || e.target.closest('.framer-dsc6k6-container')) {
-      return;
-    }
-    const headerCta = e.target.closest('.framer-xdblt6-container, .framer-9ub5sk');
-    const heroCta = e.target.closest('.framer-10rw1x1, [data-framer-name="Link - Tertiary"]');
-    if (headerCta || heroCta) {
+    // 1. Check if card CTA button clicked (Join as a Creator / Brand / Agency)
+    const cardCta = e.target.closest('.framer-10lp6oo, .framer-19bqd4t');
+    if (cardCta && cardCta.closest('.framer-Fmrby, .framer-wcoigc, .framer-jYxcQ, .framer-m2fq2w, [data-framer-name="Media Switcher Card"]')) {
       e.preventDefault();
       e.stopPropagation();
-      scrollToWaitlist();
+      const txt = (cardCta.innerText || '').trim();
+      let role = 'Creator';
+      if (/brand/i.test(txt)) role = 'Brand';
+      if (/agency/i.test(txt)) role = 'Agency';
+      scrollToWaitlist(role);
+      return;
+    }
+
+    // 2. Header / Hero "Apply for Beta Access"
+    if (!e.target.closest('form') && !e.target.closest('button[type="submit"]') && !e.target.closest('.framer-dsc6k6-container')) {
+      const headerCta = e.target.closest('.framer-xdblt6-container, .framer-9ub5sk');
+      const heroCta = e.target.closest('.framer-10rw1x1, [data-framer-name="Link - Tertiary"]');
+      if (headerCta || heroCta) {
+        e.preventDefault();
+        e.stopPropagation();
+        scrollToWaitlist();
+        return;
+      }
+    }
+
+    // 3. Social icons
+    const linkedin = e.target.closest('[data-framer-name="Linkedin"], .framer-tyhk2s');
+    if (linkedin) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.open('https://www.linkedin.com/company/asnd-creative-discovery/', '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    const instagram = e.target.closest('[data-framer-name="Instagram"], .framer-1hwc71l');
+    if (instagram) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.open('https://www.instagram.com/join.asnd/', '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    // 4. Legal & contact links
+    const targetA = e.target.closest('a');
+    if (targetA) {
+      const text = (targetA.innerText || '').trim();
+      if (text === 'Terms & Conditions' || text.toLowerCase().includes('terms')) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.location.href = './terms-and-condition/';
+        return;
+      } else if (text === 'Privacy Policy' || text.toLowerCase().includes('privacy')) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.location.href = './privacy-policy/';
+        return;
+      } else if (text.includes('585-414-2745') || text.includes('+1 585')) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.location.href = 'tel:+15854142745';
+        return;
+      } else if (text.includes('asnddev@gmail.com') || text.includes('@')) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.location.href = 'mailto:asnddev@gmail.com';
+        return;
+      }
     }
   }, true);
 
-  document.addEventListener('framer:pageview', safeInit, { once: true });
-  window.addEventListener('load', () => setTimeout(safeInit, 400));
-  setTimeout(safeInit, 1200);
+  // Initialize safely without fighting React hydration
+  document.addEventListener('framer:pageview', initInteractions, { once: true });
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    setTimeout(initInteractions, 50);
+  } else {
+    window.addEventListener('DOMContentLoaded', initInteractions);
+  }
+  setTimeout(initInteractions, 300);
+  setTimeout(initInteractions, 800);
+  setTimeout(initInteractions, 1500);
 })();
+
 </script>
 </body>
 </html>
