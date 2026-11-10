@@ -375,14 +375,28 @@
   }
 
   /* Auto-calculate container heights to prevent mobile/tablet truncation */
+  .framer-zs9dZ {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow: visible !important;
+  }
+
   .framer-giCoS,
   .framer-1urp6zq,
   .framer-t3rptl,
-  .framer-wvbx3y,
   .framer-18unhbd,
   .framer-1s64rsl {
     height: auto !important;
     min-height: min-content !important;
+    display: block !important;
+    overflow: visible !important;
+  }
+
+  .framer-wvbx3y {
+    position: relative !important;
+    height: auto !important;
+    min-height: min-content !important;
+    display: flex !important;
     overflow: visible !important;
   }
 
@@ -413,20 +427,29 @@
     cursor: pointer !important;
   }
 
-  /* Mobile Touch Targets & Pressable Buttons Overhaul */
+  /* Clean 2-Column Mobile Footer Layout matching Framer & Screenshot 2026-11-10 at 2.25.13 AM.png */
   @media (max-width: 767.98px) {
     footer .framer-1xh2vqv {
       display: flex !important;
-      flex-direction: column !important;
+      flex-direction: row !important;
+      justify-content: space-between !important;
+      align-items: flex-start !important;
       width: 100% !important;
-      gap: 24px !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      gap: 20px !important;
     }
 
     footer .framer-13zzgie,
     footer .framer-3dxwfd {
-      width: 100% !important;
       display: flex !important;
       flex-direction: column !important;
+      align-items: flex-start !important;
+      width: auto !important;
+      max-width: none !important;
+      padding: 0 !important;
+      gap: 8px !important;
+      overflow: visible !important;
     }
 
     footer .framer-107146m-container,
@@ -435,48 +458,53 @@
     footer .framer-cxq5dh-container,
     footer .framer-3mj9f2-container,
     footer .framer-18828wc-container {
-      width: 100% !important;
+      width: auto !important;
       height: auto !important;
-      margin: 4px 0 !important;
+      margin: 0 !important;
     }
 
     footer .framer-13zzgie a,
     footer .framer-3dxwfd a,
     footer a.framer-z8pln {
-      min-height: 52px !important;
-      display: flex !important;
+      display: inline-flex !important;
       align-items: center !important;
       justify-content: flex-start !important;
-      padding: 14px 18px !important;
-      margin: 4px 0 !important;
-      background: rgba(255, 255, 255, 0.08) !important;
-      border: 1px solid rgba(255, 255, 255, 0.18) !important;
-      border-radius: 10px !important;
+      padding: 4px 0 !important;
+      margin: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      border-radius: 0 !important;
       box-sizing: border-box !important;
       touch-action: manipulation !important;
-      -webkit-tap-highlight-color: rgba(255, 87, 34, 0.3) !important;
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1) !important;
       cursor: pointer !important;
-      width: 100% !important;
+      width: auto !important;
+      min-height: 32px !important;
       text-decoration: none !important;
-      transition: background 0.15s ease, transform 0.1s ease !important;
+      opacity: 0.8 !important;
+      transition: opacity 0.15s ease !important;
     }
 
+    footer .framer-13zzgie a:hover,
+    footer .framer-3dxwfd a:hover,
+    footer a.framer-z8pln:hover,
     footer .framer-13zzgie a:active,
     footer .framer-3dxwfd a:active,
     footer a.framer-z8pln:active {
-      background: rgba(255, 255, 255, 0.2) !important;
-      transform: scale(0.98) !important;
+      opacity: 1 !important;
+      background: transparent !important;
+      transform: none !important;
     }
 
     footer .framer-13zzgie a p,
     footer .framer-3dxwfd a p,
     footer a.framer-z8pln p {
-      font-size: 15px !important;
-      font-weight: 500 !important;
+      font-size: 14px !important;
+      font-weight: 400 !important;
       color: #ffffff !important;
-      opacity: 0.95 !important;
       margin: 0 !important;
       white-space: nowrap !important;
+      line-height: 1.4 !important;
     }
 
     footer .framer-1995dgf-container a,
@@ -729,6 +757,38 @@
 
   // Delegated capture phase click interceptor
   document.addEventListener('click', (e) => {
+    // 0. Top Priority: Legal links & contact links
+    const targetA = e.target.closest('a');
+    if (targetA) {
+      const text = (targetA.innerText || targetA.textContent || '').trim();
+      const href = targetA.getAttribute('href') || '';
+      if (text.includes('Terms') || href.includes('terms')) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        window.location.href = getTermsUrl();
+        return false;
+      } else if (text.includes('Privacy') || href.includes('privacy')) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        window.location.href = getPrivacyUrl();
+        return false;
+      } else if (text.includes('585-414-2745') || text.includes('+1 585') || href.startsWith('tel:')) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        window.location.href = 'tel:+15854142745';
+        return false;
+      } else if (text.includes('asnddev@gmail.com') || text.includes('@') || href.startsWith('mailto:')) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        window.location.href = 'mailto:asnddev@gmail.com';
+        return false;
+      }
+    }
+
     // Header Apply CTA
     if (e.target.closest('.framer-xdblt6-container, .framer-9ub5sk')) {
       e.preventDefault();
@@ -755,44 +815,6 @@
       e.stopImmediatePropagation();
       window.open('https://www.instagram.com/join.asnd/', '_blank', 'noopener,noreferrer');
       return false;
-    }
-
-    // Footer contact links
-    const phone = e.target.closest('a[href*="tel:"]') || (e.target.closest('a') && e.target.closest('a').textContent.includes('+1 585'));
-    if (phone) {
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      window.location.href = 'tel:+15854142745';
-      return false;
-    }
-
-    const email = e.target.closest('a[href*="mailto:"]') || (e.target.closest('a') && e.target.closest('a').textContent.includes('asnddev@gmail.com'));
-    if (email) {
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      window.location.href = 'mailto:asnddev@gmail.com';
-      return false;
-    }
-
-    // Legal links
-    const legalLink = e.target.closest('a');
-    if (legalLink) {
-      const text = legalLink.textContent.trim();
-      if (text.includes('Terms')) {
-        e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        window.location.href = getTermsUrl();
-        return false;
-      } else if (text.includes('Privacy')) {
-        e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        window.location.href = getPrivacyUrl();
-        return false;
-      }
     }
   }, true);
 

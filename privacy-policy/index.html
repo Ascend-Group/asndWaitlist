@@ -549,20 +549,29 @@ nav[data-framer-name="Phone Open"] {
   }
 }
 
-/* Mobile Touch Targets & Pressable Buttons Overhaul */
+/* Clean 2-Column Mobile Footer Layout matching Framer & Screenshot 2026-11-10 at 2.25.13 AM.png */
 @media (max-width: 767.98px) {
   footer .framer-1xh2vqv {
     display: flex !important;
-    flex-direction: column !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
     width: 100% !important;
-    gap: 24px !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    gap: 20px !important;
   }
 
   footer .framer-13zzgie,
   footer .framer-3dxwfd {
-    width: 100% !important;
     display: flex !important;
     flex-direction: column !important;
+    align-items: flex-start !important;
+    width: auto !important;
+    max-width: none !important;
+    padding: 0 !important;
+    gap: 8px !important;
+    overflow: visible !important;
   }
 
   footer .framer-107146m-container,
@@ -571,48 +580,53 @@ nav[data-framer-name="Phone Open"] {
   footer .framer-cxq5dh-container,
   footer .framer-3mj9f2-container,
   footer .framer-18828wc-container {
-    width: 100% !important;
+    width: auto !important;
     height: auto !important;
-    margin: 4px 0 !important;
+    margin: 0 !important;
   }
 
   footer .framer-13zzgie a,
   footer .framer-3dxwfd a,
   footer a.framer-z8pln {
-    min-height: 52px !important;
-    display: flex !important;
+    display: inline-flex !important;
     align-items: center !important;
     justify-content: flex-start !important;
-    padding: 14px 18px !important;
-    margin: 4px 0 !important;
-    background: rgba(255, 255, 255, 0.08) !important;
-    border: 1px solid rgba(255, 255, 255, 0.18) !important;
-    border-radius: 10px !important;
+    padding: 4px 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
     box-sizing: border-box !important;
     touch-action: manipulation !important;
-    -webkit-tap-highlight-color: rgba(255, 87, 34, 0.3) !important;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1) !important;
     cursor: pointer !important;
-    width: 100% !important;
+    width: auto !important;
+    min-height: 32px !important;
     text-decoration: none !important;
-    transition: background 0.15s ease, transform 0.1s ease !important;
+    opacity: 0.8 !important;
+    transition: opacity 0.15s ease !important;
   }
 
+  footer .framer-13zzgie a:hover,
+  footer .framer-3dxwfd a:hover,
+  footer a.framer-z8pln:hover,
   footer .framer-13zzgie a:active,
   footer .framer-3dxwfd a:active,
   footer a.framer-z8pln:active {
-    background: rgba(255, 255, 255, 0.2) !important;
-    transform: scale(0.98) !important;
+    opacity: 1 !important;
+    background: transparent !important;
+    transform: none !important;
   }
 
   footer .framer-13zzgie a p,
   footer .framer-3dxwfd a p,
   footer a.framer-z8pln p {
-    font-size: 15px !important;
-    font-weight: 500 !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
     color: #ffffff !important;
-    opacity: 0.95 !important;
     margin: 0 !important;
     white-space: nowrap !important;
+    line-height: 1.4 !important;
   }
 
   footer .framer-1995dgf-container a,
