@@ -509,6 +509,18 @@ a, button, [role="button"],
 
 /* Clean 2-Column Mobile Footer Layout matching Framer & Screenshot 2026-11-10 at 2.25.13 AM.png */
 @media (max-width: 767.98px) {
+  [data-framer-name^="Main Heading →"],
+  [data-framer-name^="Subheading →"] {
+    left: 20px !important;
+    width: calc(100% - 40px) !important;
+    transform: none !important;
+  }
+
+  [data-framer-name^="Main Heading →"] p,
+  [data-framer-name^="Subheading →"] p {
+    text-align: left !important;
+  }
+
   footer .framer-1xh2vqv {
     display: flex !important;
     flex-direction: row !important;
