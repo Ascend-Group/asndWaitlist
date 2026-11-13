@@ -810,6 +810,68 @@ form[data-framer-form],
   }
 }
 
+@media (min-width: 768px) and (max-width: 1199.98px) {
+  .framer-2gbvtn {
+    height: auto !important;
+    min-height: 775px !important;
+  }
+
+  .framer-14anmus {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 16px !important;
+  }
+
+  form.framer-ecpbti {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    height: auto !important;
+    padding: 30px !important;
+    min-width: 0 !important;
+    gap: 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  form.framer-ecpbti,
+  form.framer-ecpbti > * {
+    min-width: 0 !important;
+  }
+
+  form.framer-ecpbti > .framer-1dtn7vl {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+    margin: 0 !important;
+    min-width: 0 !important;
+  }
+
+  form.framer-ecpbti > .framer-hp60ax {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+    margin: 0 !important;
+    min-width: 0 !important;
+    height: auto !important;
+    padding-top: 0 !important;
+    transform: none !important;
+  }
+
+  form.framer-ecpbti .framer-1jfpdkj {
+    flex-direction: row !important;
+    gap: 16px !important;
+  }
+
+  form.framer-ecpbti .framer-ak4x32,
+  form.framer-ecpbti .framer-bsbv7y {
+    width: calc(50% - 8px) !important;
+    flex: 0 0 calc(50% - 8px) !important;
+  }
+
+  form.framer-ecpbti .framer-dsc6k6-container {
+    margin-top: 8px !important;
+  }
+}
+
 .framer-1t60vvj {
   display: flex !important;
   flex-direction: row !important;
@@ -1819,8 +1881,6 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
     // 1. Ensure forms have id and prevent native Framer api.framer.com submission
     document.querySelectorAll('form[data-framer-form]').forEach(form => {
       form.id = 'waitlist';
-      form.setAttribute('data-framer-form-hydrated', 'true');
-      form.removeAttribute('data-framer-form-pending-submit');
 
       form.onsubmit = (e) => {
         e.preventDefault();
@@ -1993,30 +2053,32 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
     }
   }, true);
 
-  // Initialize safely without fighting React hydration
-  document.addEventListener('framer:pageview', initInteractions, { once: true });
-  if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    setTimeout(initInteractions, 50);
-  } else {
-    window.addEventListener('DOMContentLoaded', initInteractions);
-  }
-  setTimeout(initInteractions, 300);
-  setTimeout(initInteractions, 800);
-  setTimeout(initInteractions, 1500);
-
-  // Responsive breakpoint remount observer
+  let enhancementsStarted = false;
   let remountDebounce;
-  const remountObserver = new MutationObserver(() => {
-    clearTimeout(remountDebounce);
-    remountDebounce = setTimeout(() => {
-      const needsPicker = Array.from(document.querySelectorAll('.framer-1t60vvj')).some(w => !w.querySelector('.asnd-country-picker'));
-      const needsRole = Array.from(document.querySelectorAll('.framer-u1amz0')).some(w => !w.querySelector('.asnd-role-select'));
-      if (needsPicker || needsRole) {
-        initInteractions();
-      }
-    }, 60);
-  });
-  remountObserver.observe(document.body, { childList: true, subtree: true });
+
+  function startEnhancements() {
+    if (enhancementsStarted) return;
+    enhancementsStarted = true;
+    initInteractions();
+
+    // Watch for Framer remounts after hydration has completed.
+    const remountObserver = new MutationObserver(() => {
+      clearTimeout(remountDebounce);
+      remountDebounce = setTimeout(() => {
+        const needsPicker = Array.from(document.querySelectorAll('.framer-1t60vvj')).some(w => !w.querySelector('.asnd-country-picker'));
+        const needsRole = Array.from(document.querySelectorAll('.framer-u1amz0')).some(w => !w.querySelector('.asnd-role-select'));
+        if (needsPicker || needsRole) {
+          initInteractions();
+        }
+      }, 60);
+    });
+    remountObserver.observe(document.body, { childList: true, subtree: true });
+  }
+
+  // Wait for Framer's initial React hydration before changing its form DOM.
+  document.addEventListener('framer:pageview', () => setTimeout(startEnhancements, 1000), { once: true });
+  window.addEventListener('load', () => setTimeout(startEnhancements, 1500), { once: true });
+  setTimeout(startEnhancements, 3000);
 })();
 
 </script>
