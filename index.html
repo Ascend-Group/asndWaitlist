@@ -433,7 +433,7 @@ a, button, [role="button"],
 
 /* Mobile Drawer Menu */
 #asnd-mobile-menu {
-  display: none;
+  display: none !important;
   position: fixed;
   top: 68px;
   left: 0;
@@ -452,7 +452,7 @@ a, button, [role="button"],
 }
 
 #asnd-mobile-menu.open {
-  display: flex !important;
+  display: none !important;
 }
 
 .asnd-mobile-nav-links {
@@ -512,24 +512,47 @@ a, button, [role="button"],
   footer .framer-1xh2vqv {
     display: flex !important;
     flex-direction: row !important;
-    justify-content: space-between !important;
-    align-items: flex-start !important;
+    justify-content: stretch !important;
+    align-items: stretch !important;
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
     gap: 20px !important;
   }
 
-  footer .framer-13zzgie,
-  footer .framer-3dxwfd {
+  footer [data-framer-name="Legal"],
+  footer [data-framer-name="Contact"] {
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
-    width: auto !important;
+    flex: 1 1 0 !important;
+    width: 0 !important;
     max-width: none !important;
     padding: 0 !important;
     gap: 8px !important;
     overflow: visible !important;
+  }
+
+  footer [data-framer-name="Legal"] > *,
+  footer [data-framer-name="Contact"] > * {
+    margin: 0 !important;
+  }
+
+  footer [data-framer-name="Legal"] [data-framer-component-type="RichTextContainer"],
+  footer [data-framer-name="Contact"] [data-framer-component-type="RichTextContainer"],
+  footer [data-framer-name="Legal"] a,
+  footer [data-framer-name="Contact"] a {
+    align-self: flex-start !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    text-align: left !important;
+  }
+
+  footer [data-framer-name="Legal"] mark,
+  footer [data-framer-name="Contact"] mark {
+    padding-left: 0 !important;
   }
 
   footer .framer-107146m-container,
@@ -1197,10 +1220,6 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
 <div id="asnd-mobile-menu">
   <div class="asnd-mobile-nav-links">
     <a href="#" class="asnd-mobile-nav-item" data-action="top">Home</a>
-    <a href="#problem" class="asnd-mobile-nav-item" data-action="problem">The Problem</a>
-    <a href="#designed-for" class="asnd-mobile-nav-item" data-action="designed-for">Designed for</a>
-    <a href="#waitlist" class="asnd-mobile-nav-item" data-action="waitlist">Join the Waitlist</a>
-    <a href="#contact" class="asnd-mobile-nav-item" data-action="contact">Contact</a>
     <a href="./terms-and-conditions/" class="asnd-mobile-nav-item" data-action="terms">Terms and Conditions</a>
     <a href="./privacy-policy/" class="asnd-mobile-nav-item" data-action="privacy">Privacy Policy</a>
   </div>
@@ -1853,17 +1872,6 @@ your Growth?" data-framer-component-type="RichTextContainer" style="justify-cont
         e.preventDefault();
         e.stopPropagation();
         scrollToContact();
-      };
-    });
-
-    // 4. Mobile hamburger toggle
-    document.querySelectorAll('.framer-mkw4t7').forEach(btn => {
-      btn.style.cursor = 'pointer';
-      btn.onclick = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const menu = document.getElementById('asnd-mobile-menu');
-        if (menu) menu.classList.toggle('open');
       };
     });
 
